@@ -9,7 +9,7 @@ const initialIssues = [
         created: new Date('2019-05-30'),
         effort: 5,
         due: new Date('2019-06-08'),
-        title: 'Missing Title for IssueTracker'
+        title: 'Missing Title for IssueTracker!!!'
     },
     {
         id: 2,
@@ -18,7 +18,7 @@ const initialIssues = [
         created: new Date('2018-07-19'),
         effort: 5,
         due: new Date(""),
-        title: 'Missing Title for IssueTracker'
+        title: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium, assumenda!"
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ const initialIssues = [
         created: new Date('2019-05-30'),
         effort: 5,
         due: new Date('2019-06-08'),
-        title: 'Missing Title for IssueTracker'
+        title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
     },
     {
         id: 4,
