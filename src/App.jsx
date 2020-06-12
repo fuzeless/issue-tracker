@@ -1,0 +1,224 @@
+// import React from 'react';
+// import ReactDOM from 'react-dom';;
+// import Clock from './Clock';
+const initialIssues = [
+    {
+        id: 1,
+        status: 'New',
+        owner: 'Fuzeless',
+        created: new Date('2019-05-30'),
+        effort: 5,
+        due: new Date('2019-06-08'),
+        title: 'Missing Title for IssueTracker'
+    },
+    {
+        id: 2,
+        status: 'Closed',
+        owner: 'Ethan',
+        created: new Date('2018-07-19'),
+        effort: 5,
+        due: new Date(""),
+        title: 'Missing Title for IssueTracker'
+    },
+    {
+        id: 3,
+        status: 'New',
+        owner: 'Fuzeless',
+        created: new Date('2019-05-30'),
+        effort: 5,
+        due: new Date('2019-06-08'),
+        title: 'Missing Title for IssueTracker'
+    },
+    {
+        id: 4,
+        status: 'New',
+        owner: 'Fuzeless',
+        created: new Date('2019-05-30'),
+        effort: 5,
+        due: new Date('2019-06-08'),
+        title: 'Missing Title for IssueTracker'
+    }
+]
+
+//Sample Issue for adding new Issue.
+const sampleIssue = {
+    status: "New",
+    owner: "Pierra",
+    title: ' Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit, fuga?'
+}
+function randomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+class Clock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { date: new Date() };
+    }
+
+    componentDidMount() {
+        // this.timerID = setInterval(
+        //     () => this.tick(),
+        //     1000
+        // );
+        // requestAnimationFrame(() => this.tick());
+        this.tick();
+    }
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
+        this.setState({ date: new Date() });
+        requestAnimationFrame(this.tick.bind(this));
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>It is {this.state.date.toLocaleTimeString()}</h1>
+            </div>
+        );
+    }
+}
+
+
+class IssueFilter extends React.Component {
+    render() {
+        return (
+            <div>Placeholder for IssueFilter</div>
+        );
+    }
+}
+
+function IssueTable(props) {
+    const issueRows = props.issues.map(issue =>
+        <IssueRow key={issue.id} issue={issue} />
+    );
+    // console.log(this.state);
+    return (
+        <table className="bordered-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                    <th>Date Created</th>
+                    <th>Effort</th>
+                    <th>Due Date</th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                {issueRows}
+            </tbody>
+        </table>
+    );
+};
+
+
+
+function IssueRow(props) {
+    const issue = props.issue;
+    return (
+        <tr>
+            <td>{issue.id}</td>
+            <td>{issue.status}</td>
+            <td>{issue.owner}</td>
+            <td>{issue.created.toDateString()}</td>
+            <td>{issue.effort}</td>
+            <td>{issue.due ? issue.due.toDateString() : ' '}</td>
+            <td>{issue.title}</td>
+        </tr>
+    );
+}
+
+class IssueAdd extends React.Component {
+    constructor() {
+        super();
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e) {
+        //Prevent from submitting the form to GET HTTP when Add button is clicked
+        e.preventDefault();
+
+        // Get inputted Form and store it to form
+        const form = document.forms.issueAdd;
+
+        // Create issue based on form inputs
+        const issue = {
+            owner: form.owner.value,
+            title: form.title.value,
+            status: "New"
+        };
+        this.props.createIssue(issue);
+
+        // Reset form fields.
+        form.owner.value = "";
+        form.title.value = "";
+    }
+
+    render() {
+        return (
+            <form name="issueAdd" onSubmit={this.handleSubmit}>
+                <input type="text" name="owner" placeholder="Owner" />
+                <input type="text" name="title" placeholder="Title" />
+                <button>Add</button>
+            </form>
+        );
+    }
+}
+
+
+class IssueList extends React.Component {
+    constructor() {
+        super();
+        this.state = { issues: [] };
+        this.createIssue = this.createIssue.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    loadData() {
+        setTimeout(
+            () => {
+                this.setState({ issues: initialIssues });
+            }
+            , 500
+        );
+    };
+
+    // Create new issue sample.
+
+    createIssue(issue) {
+        let newIssue = Object.assign({}, issue);
+        newIssue.id = this.state.issues.length + 1;
+        newIssue.created = new Date();
+        const newIssues = this.state.issues.slice();
+        newIssues.push(newIssue);
+        this.setState({ issues: newIssues });
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <h1>Issue Tracker</h1>
+                <hr />
+                <IssueFilter />
+                <hr />
+                <IssueTable issues={this.state.issues} />
+                <hr />
+                <IssueAdd createIssue={this.createIssue} />
+                <hr />
+                <Clock />
+                <hr />
+            </React.Fragment>
+        )
+    }
+}
+
+const element = <IssueList />;
+ReactDOM.render(element, document.getElementById('content'));

@@ -1,0 +1,191 @@
+// import React from 'react';
+// import ReactDOM from 'react-dom';;
+// import Clock from './Clock';
+const initialIssues = [{
+  id: 1,
+  status: 'New',
+  owner: 'Fuzeless',
+  created: new Date('2019-05-30'),
+  effort: 5,
+  due: new Date('2019-06-08'),
+  title: 'Missing Title for IssueTracker'
+}, {
+  id: 2,
+  status: 'Closed',
+  owner: 'Ethan',
+  created: new Date('2018-07-19'),
+  effort: 5,
+  due: new Date(""),
+  title: 'Missing Title for IssueTracker'
+}, {
+  id: 3,
+  status: 'New',
+  owner: 'Fuzeless',
+  created: new Date('2019-05-30'),
+  effort: 5,
+  due: new Date('2019-06-08'),
+  title: 'Missing Title for IssueTracker'
+}, {
+  id: 4,
+  status: 'New',
+  owner: 'Fuzeless',
+  created: new Date('2019-05-30'),
+  effort: 5,
+  due: new Date('2019-06-08'),
+  title: 'Missing Title for IssueTracker'
+}]; //Sample Issue for adding new Issue.
+
+const sampleIssue = {
+  status: "New",
+  owner: "Pierra",
+  title: ' Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit, fuga?'
+};
+
+function randomDate(start, end) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date()
+    };
+  }
+
+  componentDidMount() {
+    // this.timerID = setInterval(
+    //     () => this.tick(),
+    //     1000
+    // );
+    // requestAnimationFrame(() => this.tick());
+    this.tick();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+    requestAnimationFrame(this.tick.bind(this));
+  }
+
+  render() {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "It is ", this.state.date.toLocaleTimeString()));
+  }
+
+}
+
+class IssueFilter extends React.Component {
+  render() {
+    return /*#__PURE__*/React.createElement("div", null, "Placeholder for IssueFilter");
+  }
+
+}
+
+function IssueTable(props) {
+  const issueRows = props.issues.map(issue => /*#__PURE__*/React.createElement(IssueRow, {
+    key: issue.id,
+    issue: issue
+  })); // console.log(this.state);
+
+  return /*#__PURE__*/React.createElement("table", {
+    className: "bordered-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "ID"), /*#__PURE__*/React.createElement("th", null, "Status"), /*#__PURE__*/React.createElement("th", null, "Owner"), /*#__PURE__*/React.createElement("th", null, "Date Created"), /*#__PURE__*/React.createElement("th", null, "Effort"), /*#__PURE__*/React.createElement("th", null, "Due Date"), /*#__PURE__*/React.createElement("th", null, "Title"))), /*#__PURE__*/React.createElement("tbody", null, issueRows));
+}
+
+;
+
+function IssueRow(props) {
+  const issue = props.issue;
+  return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, issue.id), /*#__PURE__*/React.createElement("td", null, issue.status), /*#__PURE__*/React.createElement("td", null, issue.owner), /*#__PURE__*/React.createElement("td", null, issue.created.toDateString()), /*#__PURE__*/React.createElement("td", null, issue.effort), /*#__PURE__*/React.createElement("td", null, issue.due ? issue.due.toDateString() : ' '), /*#__PURE__*/React.createElement("td", null, issue.title));
+}
+
+class IssueAdd extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    //Prevent from submitting the form to GET HTTP when Add button is clicked
+    e.preventDefault(); // Get inputted Form and store it to form
+
+    const form = document.forms.issueAdd; // Create issue based on form inputs
+
+    const issue = {
+      owner: form.owner.value,
+      title: form.title.value,
+      status: "New"
+    };
+    this.props.createIssue(issue); // Reset form fields.
+
+    form.owner.value = "";
+    form.title.value = "";
+  }
+
+  render() {
+    return /*#__PURE__*/React.createElement("form", {
+      name: "issueAdd",
+      onSubmit: this.handleSubmit
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      name: "owner",
+      placeholder: "Owner"
+    }), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      name: "title",
+      placeholder: "Title"
+    }), /*#__PURE__*/React.createElement("button", null, "Add"));
+  }
+
+}
+
+class IssueList extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      issues: []
+    };
+    this.createIssue = this.createIssue.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  loadData() {
+    setTimeout(() => {
+      this.setState({
+        issues: initialIssues
+      });
+    }, 500);
+  }
+
+  // Create new issue sample.
+  createIssue(issue) {
+    let newIssue = Object.assign({}, issue);
+    newIssue.id = this.state.issues.length + 1;
+    newIssue.created = new Date();
+    const newIssues = this.state.issues.slice();
+    newIssues.push(newIssue);
+    this.setState({
+      issues: newIssues
+    });
+  }
+
+  render() {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Issue Tracker"), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueFilter, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueTable, {
+      issues: this.state.issues
+    }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueAdd, {
+      createIssue: this.createIssue
+    }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(Clock, null), /*#__PURE__*/React.createElement("hr", null));
+  }
+
+}
+
+const element = /*#__PURE__*/React.createElement(IssueList, null);
+ReactDOM.render(element, document.getElementById('content'));
