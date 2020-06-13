@@ -18,4 +18,4 @@ class HelloWorld extends React.Component {
 
 const element = /*#__PURE__*/React.createElement(HelloWorld, null);
 ReactDOM.render(element, document.getElementById('Content'));
-setInterval(render, 1000);
+setInterval(render, 3000);
