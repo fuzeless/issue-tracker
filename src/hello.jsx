@@ -23,4 +23,4 @@ class HelloWorld extends React.Component {
 const element = <HelloWorld />;
 ReactDOM.render(element, document.getElementById('Content'));
 
-setInterval(render, 2000);
+setInterval(render, 3000);
