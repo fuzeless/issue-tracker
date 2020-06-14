@@ -81,7 +81,7 @@ class Clock extends React.Component {
 
 class IssueFilter extends React.Component {
   render() {
-    return /*#__PURE__*/React.createElement("div", null, "Placeholder for IssueFilter");
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", null, "Placeholder for IssueFilter"), /*#__PURE__*/React.createElement("p", null, "what should i do lmao"));
   }
 
 }
