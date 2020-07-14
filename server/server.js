@@ -6,16 +6,22 @@ const fileServerMiddleware = express.static("public");
 app.use('/', fileServerMiddleware);
 
 let aboutMessage = "Issue Tracker API v0.1";
+let defaultName = "Le Quang Nhat";
 function setAboutMessage(_, { message }) {
     return aboutMessage = message;
+}
+function setName(_,{name}) {
+    return defaultName = name;
 }
 
 const resolvers = {
     Query: {
-        about: () => aboutMessage
+        about: () => aboutMessage,
+        name: ()=>"Fuzeless"
     },
     Mutation: {
-        setAboutMessage
+        setAboutMessage,
+        setName
     }
 }
 

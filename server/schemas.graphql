@@ -1,6 +1,8 @@
 type Query {
     about: String!
+    name: String!
 }
 type Mutation {
     setAboutMessage(message: String!): String
+    setName(name: String!): String
 }
