@@ -1,6 +1,28 @@
+# Sample About API
+# type Query {
+#     about: String!
+#     name: String!
+# }
+# type Mutation {
+#     setAboutMessage(message: String!): String
+#     setName(name: String!): String
+# }
+
+# Issue API
+type Issue {
+    id: Int!
+    status: String!
+    owner: String!
+    created: String!
+    effort: Int
+    due: String
+    title: String!
+}
+
 type Query {
     about: String!
     name: String!
+    issueList: [Issue!]!
 }
 type Mutation {
     setAboutMessage(message: String!): String
