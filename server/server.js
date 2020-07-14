@@ -17,7 +17,7 @@ function setName(_,{name}) {
 const resolvers = {
     Query: {
         about: () => aboutMessage,
-        name: ()=>"Fuzeless"
+        name: () => defaultName
     },
     Mutation: {
         setAboutMessage,
