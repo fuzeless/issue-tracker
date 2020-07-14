@@ -10,9 +10,15 @@ let defaultName = "Le Quang Nhat";
 function setAboutMessage(_, { message }) {
     return aboutMessage = message;
 }
-function setName(_,{name}) {
-    return defaultName = name;
-}
+
+/* The following line is the same as:
+    function setAboutMessage(_, { message }) {
+        return aboutMessage = message;
+    }
+*/
+let setName = (_, {name}) => defaultName = name;
+
+//resolvers is json-based
 
 const resolvers = {
     Query: {
