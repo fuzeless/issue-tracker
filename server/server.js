@@ -8,6 +8,7 @@ app.use('/', fileServerMiddleware);
 
 let aboutMessage = "Issue Tracker API v0.1";
 let defaultName = "Le Quang Nhat";
+
 function setAboutMessage(_, { message }) {
     return aboutMessage = message;
 }
