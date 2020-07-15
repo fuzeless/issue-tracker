@@ -2,16 +2,13 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const fs = require('fs');
+const { Kind } = require('graphql/language');
 const app = express();
 const fileServerMiddleware = express.static("public");
 app.use('/', fileServerMiddleware);
 
 let aboutMessage = "Issue Tracker API v0.1";
 let defaultName = "Le Quang Nhat";
-
-function setAboutMessage(_, { message }) {
-    return aboutMessage = message;
-}
 
 //Temp DB for API testing:
 const issuesDB = [
@@ -58,7 +55,18 @@ const issuesDB = [
         return aboutMessage = message;
     }
 */
+//Also, Mutation functions.
 let setName = (_, {name}) => defaultName = name;
+function setAboutMessage(_, { message }) {
+    return aboutMessage = message;
+}
+function issueAdd(_, { issue }) {
+    issue.id = issuesDB.length + 1;
+    issue.created = new Date();
+    if (issue.status === undefined) issue.status = "New";
+    issuesDB.push(issue);
+    return issue;
+}
 
 const GraphQLDate = new GraphQLScalarType({
     name: 'GraphQLDate',
@@ -76,7 +84,8 @@ const resolvers = {
     },
     Mutation: {
         setAboutMessage,
-        setName
+        setName,
+        issueAdd
     },
     GraphQLDate
 }
