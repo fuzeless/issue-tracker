@@ -28,7 +28,7 @@ const issuesDB = [
         owner: 'Ethan',
         created: new Date('2018-07-19'),
         effort: 5,
-        due: new Date(""),
+        due: new Date('2020-07-08'),
         title: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium, assumenda!"
     },
     {

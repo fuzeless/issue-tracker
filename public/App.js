@@ -101,7 +101,7 @@ function IssueTable(props) {
 
 function IssueRow(props) {
   const issue = props.issue;
-  return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, issue.id), /*#__PURE__*/React.createElement("td", null, issue.status), /*#__PURE__*/React.createElement("td", null, issue.owner), /*#__PURE__*/React.createElement("td", null, issue.created.toDateString()), /*#__PURE__*/React.createElement("td", null, issue.effort), /*#__PURE__*/React.createElement("td", null, issue.due ? issue.due.toDateString() : ' '), /*#__PURE__*/React.createElement("td", null, issue.title));
+  return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, issue.id), /*#__PURE__*/React.createElement("td", null, issue.status), /*#__PURE__*/React.createElement("td", null, issue.owner), /*#__PURE__*/React.createElement("td", null, issue.created), /*#__PURE__*/React.createElement("td", null, issue.effort), /*#__PURE__*/React.createElement("td", null, issue.due), /*#__PURE__*/React.createElement("td", null, issue.title));
 }
 
 class IssueAdd extends React.Component {
@@ -157,12 +157,33 @@ class IssueList extends React.Component {
     this.loadData();
   }
 
-  loadData() {
-    setTimeout(() => {
-      this.setState({
-        issues: initialIssues
-      });
-    }, 500);
+  async loadData() {
+    //GraphQL Query for loadData() method
+    const query = `query {
+            issueList {
+                id
+                status
+                title
+                owner
+                effort
+                created
+                due
+            }
+        }`;
+    const response = await fetch('/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        query
+      })
+    });
+    const result = await response.json();
+    console.log(result);
+    this.setState({
+      issues: result.data.issueList
+    });
   }
 
   // Create new issue sample.
