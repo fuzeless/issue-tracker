@@ -8,14 +8,17 @@
 #     setName(name: String!): String
 # }
 
+#Custom Date scalar
+scalar GraphQLDate
+
 # Issue API
 type Issue {
     id: Int!
     status: String!
     owner: String!
-    created: String!
+    created: GraphQLDate!
     effort: Int
-    due: String
+    due: GraphQLDate
     title: String!
 }
 

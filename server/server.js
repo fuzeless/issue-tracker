@@ -1,5 +1,6 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
+const { GraphQLScalarType } = require('graphql');
 const fs = require('fs');
 const app = express();
 const fileServerMiddleware = express.static("public");
@@ -58,6 +59,13 @@ const issuesDB = [
 */
 let setName = (_, {name}) => defaultName = name;
 
+const GraphQLDate = new GraphQLScalarType({
+    name: 'GraphQLDate',
+    description: 'A Date type in GraphQL as custom scalar',
+    serialize(value) {
+        return value.toISOString();
+    }
+})
 //Resolvers are json-based
 const resolvers = {
     Query: {
@@ -68,7 +76,8 @@ const resolvers = {
     Mutation: {
         setAboutMessage,
         setName
-    }
+    },
+    GraphQLDate
 }
 
 const typeDefs = fs.readFileSync("./server/schemas.graphql", "utf-8");

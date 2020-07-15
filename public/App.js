@@ -43,6 +43,14 @@ const sampleIssue = {
 
 function randomDate(start, end) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+} //Convert ISO Date to Locale Date using JSON.parse()
+
+
+const dateRegex = new RegExp('\\d\\d\\d\\d-\\d\\d-\\d\\d');
+
+function jsonDateReviver(key, value) {
+  if (dateRegex.test(value)) return new Date(value);
+  return value;
 }
 
 class Clock extends React.Component {
@@ -101,7 +109,7 @@ function IssueTable(props) {
 
 function IssueRow(props) {
   const issue = props.issue;
-  return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, issue.id), /*#__PURE__*/React.createElement("td", null, issue.status), /*#__PURE__*/React.createElement("td", null, issue.owner), /*#__PURE__*/React.createElement("td", null, issue.created), /*#__PURE__*/React.createElement("td", null, issue.effort), /*#__PURE__*/React.createElement("td", null, issue.due), /*#__PURE__*/React.createElement("td", null, issue.title));
+  return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, issue.id), /*#__PURE__*/React.createElement("td", null, issue.status), /*#__PURE__*/React.createElement("td", null, issue.owner), /*#__PURE__*/React.createElement("td", null, issue.created.toDateString()), /*#__PURE__*/React.createElement("td", null, issue.effort), /*#__PURE__*/React.createElement("td", null, issue.due ? issue.due.toDateString() : ' '), /*#__PURE__*/React.createElement("td", null, issue.title));
 }
 
 class IssueAdd extends React.Component {
@@ -179,8 +187,9 @@ class IssueList extends React.Component {
         query
       })
     });
-    const result = await response.json();
-    console.log(result);
+    const body = await response.text();
+    const result = JSON.parse(body, jsonDateReviver);
+    console.log(body);
     this.setState({
       issues: result.data.issueList
     });

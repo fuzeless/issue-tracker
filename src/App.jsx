@@ -50,6 +50,14 @@ function randomDate(start, end) {
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
+//Convert ISO Date to Locale Date using JSON.parse()
+const dateRegex = new RegExp('\\d\\d\\d\\d-\\d\\d-\\d\\d');
+function jsonDateReviver(key, value) {
+    if (dateRegex.test(value))
+        return new Date(value);
+    return value;
+}
+
 class Clock extends React.Component {
     constructor(props) {
         super(props);
@@ -128,9 +136,9 @@ function IssueRow(props) {
             <td>{issue.id}</td>
             <td>{issue.status}</td>
             <td>{issue.owner}</td>
-            <td>{issue.created}</td>
+            <td>{issue.created.toDateString()}</td>
             <td>{issue.effort}</td>
-            <td>{issue.due}</td>
+            <td>{issue.due ? issue.due.toDateString() : ' '}</td>
             <td>{issue.title}</td>
         </tr>
     );
@@ -204,8 +212,9 @@ class IssueList extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({query})
         });
-        const result = await response.json();
-        console.log(result);
+        const body = await response.text();
+        const result = JSON.parse(body, jsonDateReviver);
+        console.log(body);
         this.setState({ issues: result.data.issueList });
     };
 
