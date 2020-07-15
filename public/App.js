@@ -197,12 +197,6 @@ class IssueList extends React.Component {
 
   // Create new issue sample.
   async createIssue(issue) {
-    // let newIssue = Object.assign({}, issue);
-    // newIssue.id = this.state.issues.length + 1;
-    // newIssue.created = new Date();
-    // const newIssues = this.state.issues.slice();
-    // newIssues.push(newIssue);
-    // this.setState({ issues: newIssues });
     const query = `mutation {
             issueAdd(issue: {
                 owner: "${issue.owner}",
