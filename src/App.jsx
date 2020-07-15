@@ -161,7 +161,7 @@ class IssueAdd extends React.Component {
         const issue = {
             owner: form.owner.value,
             title: form.title.value,
-            status: "New"
+            due: new Date(new Date().getTime + 1000*60*60*24*4)
         };
         this.props.createIssue(issue);
 
