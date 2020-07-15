@@ -73,6 +73,12 @@ const GraphQLDate = new GraphQLScalarType({
     description: 'A Date type in GraphQL as custom scalar',
     serialize(value) {
         return value.toISOString();
+    },
+    parseValue(value) {
+        return new Date(value);
+    },
+    parseLiteral(ast){
+        return (ast.kind == Kind.STRING) ? new Date(ast.value) : undefined;
     }
 })
 //Resolvers are json-based
