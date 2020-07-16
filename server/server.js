@@ -1,5 +1,5 @@
 const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
+const { ApolloServer, UserInputError } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const fs = require('fs');
 const { Kind } = require('graphql/language');
@@ -56,16 +56,28 @@ const issuesDB = [
     }
 */
 //Also, Mutation functions.
-let setName = (_, {name}) => defaultName = name;
+let setName = (_, { name }) => defaultName = name;
 function setAboutMessage(_, { message }) {
     return aboutMessage = message;
 }
 function issueAdd(_, { issue }) {
+    validation(_,{issue});
+    // console.log(_);
     issue.id = issuesDB.length + 1;
     issue.created = new Date();
     // if (issue.status === undefined) issue.status = "New";
     issuesDB.push(issue);
     return issue;
+}
+function validation(_, { issue }) {
+    const errors = [];
+    if (issue.title.length < 3)
+        errors.push('Field "Title" must be at least 3 characters long.');
+    if (issue.status == "Assigned" && issue.owner != "")
+        errors.push('If assigned, field "Owner" must not be empty.');
+    // console.log(errors.length);
+    if (errors.length > 0)
+        throw new UserInputError("Input error(s) detected", {errors});
 }
 
 const GraphQLDate = new GraphQLScalarType({
@@ -75,12 +87,13 @@ const GraphQLDate = new GraphQLScalarType({
         return value.toISOString();
     },
     parseValue(value) {
-        console.log("Value");
-        return new Date(value);
+        const dateValue = new Date(value);
+        return isNaN(dateValue) ? undefined : dateValue;
     },
-    parseLiteral(ast){
+    parseLiteral(ast) {
         console.log("Literal");
-        return (ast.kind == Kind.STRING) ? new Date(ast.value) : undefined;
+        const value = new Date(ast.value);
+        return (ast.kind == Kind.STRING && !Number.isNaN(value)) ? value : undefined;
     }
 })
 //Resolvers are json-based
@@ -100,7 +113,13 @@ const resolvers = {
 
 const typeDefs = fs.readFileSync("./server/schemas.graphql", "utf-8");
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+    typeDefs, resolvers,
+    formatError: error => {
+        console.log(error);
+        return error;
+    }
+});
 server.applyMiddleware({ app, path: '/graphql' });
 
 
