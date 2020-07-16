@@ -188,22 +188,28 @@ class IssueList extends React.Component {
       })
     });
     const body = await response.text();
-    const result = JSON.parse(body, jsonDateReviver); // console.log(body);
-
+    const result = JSON.parse(body, jsonDateReviver);
+    console.log(body);
     this.setState({
       issues: result.data.issueList
     });
+    console.log(this.state.issues);
   }
 
   // Create new issue sample.
   async createIssue(issue) {
-    const query = `mutation {
-            issueAdd(issue: {
-                owner: "${issue.owner}",
-                title: "${issue.title}",
-                due: "${issue.due.toISOString()}"
-            })
-            {
+    // const query = `mutation {
+    //     issueAdd(issue: {
+    //         owner: "${issue.owner}",
+    //         title: "${issue.title}",
+    //         due: "${issue.due.toISOString()}"
+    //     })
+    //     {
+    //         id
+    //     }
+    // }`;
+    const query = `mutation issueAdd($issue: IssueInputs!) {
+            issueAdd(issue: $issue) {
                 id
             }
         }`;
@@ -213,11 +219,13 @@ class IssueList extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        query
+        query,
+        variables: {
+          issue
+        }
       })
     });
     this.loadData();
-    console.log(query);
   }
 
   render() {
