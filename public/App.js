@@ -51,6 +51,39 @@ const dateRegex = new RegExp('\\d\\d\\d\\d-\\d\\d-\\d\\d');
 function jsonDateReviver(key, value) {
   if (dateRegex.test(value)) return new Date(value);
   return value;
+} //Fetch GraphQL Data
+
+
+async function graphQLFetch(query, variables = {}) {
+  try {
+    const response = await fetch('/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        query,
+        variables
+      })
+    });
+    const body = await response.text();
+    const result = JSON.parse(body, jsonDateReviver);
+
+    if (result.errors) {
+      const error = result.errors[0];
+
+      if (error.extensions.code == 'BAD_USER_INPUT') {
+        const details = error.extensions.exception.errors.join("\n ");
+        alert(`${error.message}:\n ${details}`);
+      } else {
+        alert(`${error.extensions.code}:\n ${error.message}`);
+      }
+    }
+
+    return result.data;
+  } catch (e) {
+    alert(`Error in sending data to server: ${e.message()}`);
+  }
 }
 
 class Clock extends React.Component {
@@ -178,21 +211,14 @@ class IssueList extends React.Component {
                 due
             }
         }`;
-    const response = await fetch('/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query
-      })
-    });
-    const body = await response.text();
-    const result = JSON.parse(body, jsonDateReviver); // console.log(body);
+    const data = await graphQLFetch(query);
 
-    this.setState({
-      issues: result.data.issueList
-    }); // console.log(this.state.issues);
+    if (data) {
+      this.setState({
+        issues: data.issueList
+      });
+    } // this.setState({ issues: result.data.issueList });
+
   }
 
   // Create new issue sample.
@@ -212,19 +238,13 @@ class IssueList extends React.Component {
                 id
             }
         }`;
-    const response = await fetch('/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        query,
-        variables: {
-          issue
-        }
-      })
+    const data = await graphQLFetch(query, {
+      issue
     });
-    this.loadData();
+
+    if (data) {
+      this.loadData();
+    }
   }
 
   render() {
