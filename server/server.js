@@ -75,9 +75,11 @@ const GraphQLDate = new GraphQLScalarType({
         return value.toISOString();
     },
     parseValue(value) {
+        console.log("Value");
         return new Date(value);
     },
     parseLiteral(ast){
+        console.log("Literal");
         return (ast.kind == Kind.STRING) ? new Date(ast.value) : undefined;
     }
 })
