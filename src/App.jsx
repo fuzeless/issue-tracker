@@ -214,9 +214,9 @@ class IssueList extends React.Component {
         });
         const body = await response.text();
         const result = JSON.parse(body, jsonDateReviver);
-        console.log(body);
+        // console.log(body);
         this.setState({ issues: result.data.issueList });
-        console.log(this.state.issues);
+        // console.log(this.state.issues);
     };
 
     // Create new issue sample.
