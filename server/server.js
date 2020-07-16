@@ -63,7 +63,7 @@ function setAboutMessage(_, { message }) {
 function issueAdd(_, { issue }) {
     issue.id = issuesDB.length + 1;
     issue.created = new Date();
-    if (issue.status === undefined) issue.status = "New";
+    // if (issue.status === undefined) issue.status = "New";
     issuesDB.push(issue);
     return issue;
 }
