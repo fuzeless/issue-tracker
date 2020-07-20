@@ -65,6 +65,15 @@ async function connectToDB() {
     collection = db.collection('issues');
 }
 
+async function getNewSeq(collectionName) {
+    const result = await db.collection('counters').findOneAndUpdate(
+        { _id: collectionName },
+        { $inc: { current: 1 } },
+        { returnOriginal: false }
+    );
+    return result.value.current;
+}
+
 //*End of MongoDB stuff
 
 //* GraphQL Stuff
@@ -83,16 +92,28 @@ async function issueList() {
 function setAboutMessage(_, { message }) {
     return aboutMessage = message;
 }
-function issueAdd(_, { issue }) {
-    validation(_, { issue });
-    // console.log(_);
-    issue.id = issuesDB.length + 1;
+
+//* Old issueAdd()
+// function issueAdd(_, { issue }) {
+//     validation(issue);
+//     // console.log(_);
+//     issue.id = issuesDB.length + 1;
+//     issue.created = new Date();
+//     // if (issue.status === undefined) issue.status = "New";
+//     issuesDB.push(issue);
+//     return issue;
+// }
+
+async function issueAdd(_, { issue }) {
+    validation(issue);
+    issue.id = await getNewSeq('issues');
     issue.created = new Date();
-    // if (issue.status === undefined) issue.status = "New";
-    issuesDB.push(issue);
-    return issue;
+    const result = await db.collection('issues').insertOne(issue);
+    const savedIssue = await db.collection('issues').findOne({ _id: result.insertedId });
+    return savedIssue;
 }
-function validation(_, { issue }) {
+
+function validation(issue) {
     const errors = [];
     if (issue.title.length < 3)
         errors.push('Field "Title" must be at least 3 characters long.');
@@ -149,7 +170,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 
 const PORT = process.env.PORT || 3000;
-(async function() {
+(async function () {
     try {
         await connectToDB();
         app.listen(PORT, () => {

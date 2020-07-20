@@ -53,6 +53,10 @@ db.issues.insertMany(InitialIssues);
 const cnt = db.issues.count();
 print(`Inserted ${cnt} issues`);
 
+//* Add counters collection
+db.counters.remove({_id: 'issues'});
+db.counters.insertOne({_id: 'issues', current: cnt});
+
 //* Create Index for each field
 db.issues.createIndex({id: 1}, {unique: true});
 db.issues.createIndex({status: 1});
