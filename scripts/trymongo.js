@@ -6,7 +6,7 @@ const uri = "mongodb+srv://fuzeless:49415219126@cluster0.hftok.mongodb.net/Issue
 // const url = 'mongodb://UUU:PPP@XXX.mlab.com:33533/issuetracker';
 
 
-//non-async method (deprecated)
+//! Non-Async method (deprecated!!!)
 function testWithCallback(callback) {
     console.log("TestWithCallback Running......\n");
     //Use the new style parser
@@ -49,7 +49,7 @@ function testWithCallback(callback) {
     });
 }
 
-//with Async
+//* Async method (do use!)
 async function testWithAsync() {
     console.log("TestWithAsync Running......\n");
     //Use the new style parser
