@@ -9,7 +9,7 @@
     * mongo mongodb://user:pwd@xxx.mlab.com:33533/issuetracker scripts/init.mongo.js
 */
 
-//* "Use <db>" equivalent in Interactive mode
+//* "Use <db>" equivalent in non-interactive mode
 db = db.getSiblingDB('IssueTrackerDB');
 
 //* Drop documents in "issues" collection
