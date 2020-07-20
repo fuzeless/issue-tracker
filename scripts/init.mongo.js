@@ -14,6 +14,7 @@ db = db.getSiblingDB('IssueTrackerDB');
 
 //* Drop documents in "issues" collection
 db.issues.remove({});
+print('"Issues" collection wiped!');
 
 //* Initial Issues DB
 const InitialIssues = [
