@@ -5,6 +5,7 @@ const fs = require('fs');
 const { Kind } = require('graphql/language');
 const app = express();
 const fileServerMiddleware = express.static("public");
+
 app.use('/', fileServerMiddleware);
 
 let aboutMessage = "Issue Tracker API v0.1";
