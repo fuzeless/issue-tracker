@@ -53,19 +53,14 @@ const issuesDB = [
     }
 ]
 
-async function issueList() {
-    const issues = await db.collection.find({}).toArray();
-    return issues;
-}
-
 //*MongoDB stuff
 
 async function connectToDB() {
-    let uri = "mongodb+srv://fuzeless:49415219126@cluster0.hftok.mongodb.net/issuetrackerdb";
+    let uri = "mongodb+srv://fuzeless:49415219126@cluster0.hftok.mongodb.net/IssueTrackerDB";
     let options = { useNewUrlParser: true, useUnifiedTopology: true };
     const client = new MongoClient(uri, options);
     await client.connect();
-    console.log("Database connected succesfully!");
+    console.log("Database connected succesfully to ", uri);
     db = client.db();
     collection = db.collection('issues');
 }
@@ -80,6 +75,11 @@ async function connectToDB() {
 */
 //Also, Mutation functions.
 let setName = (_, { name }) => defaultName = name;
+async function issueList() {
+    const issues = await db.collection('issues').find({}).toArray();
+    return issues;
+}
+
 function setAboutMessage(_, { message }) {
     return aboutMessage = message;
 }
@@ -125,7 +125,7 @@ const resolvers = {
     Query: {
         about: () => aboutMessage,
         name: () => defaultName,
-        issueList: () => issuesDB
+        issueList,
     },
     Mutation: {
         setAboutMessage,
