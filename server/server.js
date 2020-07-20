@@ -3,11 +3,13 @@ const { ApolloServer, UserInputError } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
 const fs = require('fs');
 const { Kind } = require('graphql/language');
+const { MongoClient } = require('mongodb');
 const app = express();
 const fileServerMiddleware = express.static("public");
 
 app.use('/', fileServerMiddleware);
 
+let db; let collection;
 let aboutMessage = "Issue Tracker API v0.1";
 let defaultName = "Le Quang Nhat";
 
@@ -51,6 +53,26 @@ const issuesDB = [
     }
 ]
 
+async function issueList() {
+    const issues = await db.collection.find({}).toArray();
+    return issues;
+}
+
+//*MongoDB stuff
+
+async function connectToDB() {
+    let uri = "mongodb+srv://fuzeless:49415219126@cluster0.hftok.mongodb.net/issuetrackerdb";
+    let options = { useNewUrlParser: true, useUnifiedTopology: true };
+    const client = new MongoClient(uri, options);
+    await client.connect();
+    console.log("Database connected succesfully!");
+    db = client.db();
+    collection = db.collection('issues');
+}
+
+//*End of MongoDB stuff
+
+//* GraphQL Stuff
 /* The following line is the same as:
     function setAboutMessage(_, { message }) {
         return aboutMessage = message;
@@ -62,7 +84,7 @@ function setAboutMessage(_, { message }) {
     return aboutMessage = message;
 }
 function issueAdd(_, { issue }) {
-    validation(_,{issue});
+    validation(_, { issue });
     // console.log(_);
     issue.id = issuesDB.length + 1;
     issue.created = new Date();
@@ -78,7 +100,7 @@ function validation(_, { issue }) {
         errors.push('If assigned, field "Owner" must not be empty.');
     // console.log(errors.length);
     if (errors.length > 0)
-        throw new UserInputError("Input error(s) detected", {errors});
+        throw new UserInputError("Input error(s) detected", { errors });
 }
 
 const GraphQLDate = new GraphQLScalarType({
@@ -96,7 +118,8 @@ const GraphQLDate = new GraphQLScalarType({
         const value = new Date(ast.value);
         return (ast.kind == Kind.STRING && !Number.isNaN(value)) ? value : undefined;
     }
-})
+});
+
 //Resolvers are json-based
 const resolvers = {
     Query: {
@@ -110,7 +133,8 @@ const resolvers = {
         issueAdd
     },
     GraphQLDate
-}
+};
+//* End of GraphQL stuff
 
 const typeDefs = fs.readFileSync("./server/schemas.graphql", "utf-8");
 
@@ -125,6 +149,14 @@ server.applyMiddleware({ app, path: '/graphql' });
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}!`);
-});
+(async function() {
+    try {
+        await connectToDB();
+        app.listen(PORT, () => {
+            console.log(`App listening on port ${PORT}!`);
+        });
+    } catch (error) {
+        console.log("ERROR: ", error)
+    }
+})();
+

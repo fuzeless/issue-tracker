@@ -32,6 +32,7 @@ input IssueInputs {
 
 # Issue API
 type Issue {
+    _id: ID!
     id: Int!
     status: StatusType!
     owner: String!
