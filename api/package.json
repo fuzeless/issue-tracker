@@ -4,7 +4,7 @@
   "description": "Issue Tracker using MERN",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon -w server -e js,graphql server.js",
+    "start": "nodemon -w . -e js,graphq,env server.js",
     "compile": "babel src --presets @babel/react --out-dir public",
     "watch": "babel src --presets @babel/react --out-dir public --watch --verbose"
   },
