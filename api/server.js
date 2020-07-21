@@ -5,9 +5,6 @@ const fs = require('fs');
 const { Kind } = require('graphql/language');
 const { MongoClient } = require('mongodb');
 const app = express();
-const fileServerMiddleware = express.static("public");
-
-app.use('/', fileServerMiddleware);
 
 let db; let collection;
 let aboutMessage = "Issue Tracker API v0.1";
@@ -157,7 +154,7 @@ const resolvers = {
 };
 //* End of GraphQL stuff
 
-const typeDefs = fs.readFileSync("./server/schemas.graphql", "utf-8");
+const typeDefs = fs.readFileSync("schemas.graphql", "utf-8");
 
 const server = new ApolloServer({
     typeDefs, resolvers,
@@ -174,7 +171,7 @@ const PORT = process.env.PORT || 3000;
     try {
         await connectToDB();
         app.listen(PORT, () => {
-            console.log(`App listening on port ${PORT}!`);
+            console.log(`API listening on port ${PORT}!`);
         });
     } catch (error) {
         console.log("ERROR: ", error)
