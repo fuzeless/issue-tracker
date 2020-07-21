@@ -20,6 +20,7 @@
   "homepage": "https://github.com/fuzeless/issue-tracker#readme",
   "dependencies": {
     "apollo-server-express": "^2.14.4",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^14.2.1",
     "mongodb": "^3.5.9",
