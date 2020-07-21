@@ -1,0 +1,33 @@
+{
+  "name": "pro-mern-stack-2",
+  "version": "1.0.0",
+  "description": "Issue Tracker using MERN",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon -w server -e js,graphql server.js",
+    "compile": "babel src --presets @babel/react --out-dir public",
+    "watch": "babel src --presets @babel/react --out-dir public --watch --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fuzeless/issue-tracker.git"
+  },
+  "author": "Fuzeless",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fuzeless/issue-tracker/issues"
+  },
+  "homepage": "https://github.com/fuzeless/issue-tracker#readme",
+  "dependencies": {
+    "apollo-server-express": "^2.14.4",
+    "express": "^4.17.1",
+    "graphql": "^14.2.1",
+    "mongodb": "^3.5.9",
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-react": "^7.10.1"
+  }
+}
