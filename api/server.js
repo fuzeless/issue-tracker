@@ -6,6 +6,9 @@ const { Kind } = require('graphql/language');
 const { MongoClient } = require('mongodb');
 const app = express();
 
+//* Inject(?) into env variables?
+require('dotenv').config();
+
 let db; let collection;
 let aboutMessage = "Issue Tracker API v0.1";
 let defaultName = "Le Quang Nhat";
@@ -53,7 +56,7 @@ const issuesDB = [
 //*MongoDB stuff
 
 async function connectToDB() {
-    let uri = "mongodb+srv://fuzeless:49415219126@cluster0.hftok.mongodb.net/IssueTrackerDB";
+    let uri = process.env.DB_URL || "mongo://localhost/IssueTrackerDB";
     let options = { useNewUrlParser: true, useUnifiedTopology: true };
     const client = new MongoClient(uri, options);
     await client.connect();
@@ -166,7 +169,7 @@ const server = new ApolloServer({
 server.applyMiddleware({ app, path: '/graphql' });
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.API_SERVER_PORT || 3000;
 (async function () {
     try {
         await connectToDB();
