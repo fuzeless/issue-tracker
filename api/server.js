@@ -166,7 +166,9 @@ const server = new ApolloServer({
         return error;
     }
 });
-server.applyMiddleware({ app, path: '/graphql' });
+const enableCors = (process.env.ENABLE_CORS || 'true') == 'true';
+console.log("Cors setting: ", enableCors);
+server.applyMiddleware({ app, path: '/graphql', cors: enableCors });
 
 
 const PORT = process.env.API_SERVER_PORT || 3000;
