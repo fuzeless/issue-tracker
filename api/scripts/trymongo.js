@@ -1,5 +1,7 @@
 const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://fuzeless:49415219126@cluster0.hftok.mongodb.net/IssueTrackerDB?retryWrites=true";
+require('dotenv').config();
+
+const uri = process.env.DB_URL || "mongodb+srv://fuzeless:49415219126@cluster0.hftok.mongodb.net/IssueTrackerDB?retryWrites=true";
 // Atlas URL - replace UUU with user, PPP with password, XXX with hostname
 // const url = 'mongodb+srv://UUU:PPP@cluster0-XXX.mongodb.net/issuetracker?retryWrites=true';
 // mLab URL - replace UUU with user, PPP with password, XXX with hostname
