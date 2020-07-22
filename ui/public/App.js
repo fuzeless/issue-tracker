@@ -1,6 +1,11 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';;
-// import Clock from './Clock';
+/* eslint-disable max-classes-per-file */
+
+/* eslint "react/react-in-jsx-scope": "off" */
+
+/* globals React ReactDOM */
+
+/* eslint "no-alert": "off" */
+// eslint-disable-next-line no-unused-vars
 const initialIssues = [{
   id: 1,
   status: 'New',
@@ -15,8 +20,8 @@ const initialIssues = [{
   owner: 'Ethan',
   created: new Date('2018-07-19'),
   effort: 5,
-  due: new Date(""),
-  title: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium, assumenda!"
+  due: new Date(''),
+  title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium, assumenda!'
 }, {
   id: 3,
   status: 'New',
@@ -33,17 +38,18 @@ const initialIssues = [{
   effort: 5,
   due: new Date('2019-06-08'),
   title: 'Missing Title for IssueTracker'
-}]; //Sample Issue for adding new Issue.
+}]; // Sample Issue for adding new Issue.
+// eslint-disable-next-line no-unused-vars
 
 const sampleIssue = {
-  status: "New",
-  owner: "Pierra",
+  status: 'New',
+  owner: 'Pierra',
   title: ' Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit, fuga?'
-};
+}; // eslint-disable-next-line no-unused-vars
 
 function randomDate(start, end) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-} //Convert ISO Date to Locale Date using JSON.parse()
+} // Convert ISO Date to Locale Date using JSON.parse()
 
 
 const dateRegex = new RegExp('\\d\\d\\d\\d-\\d\\d-\\d\\d');
@@ -51,7 +57,7 @@ const dateRegex = new RegExp('\\d\\d\\d\\d-\\d\\d-\\d\\d');
 function jsonDateReviver(key, value) {
   if (dateRegex.test(value)) return new Date(value);
   return value;
-} //Fetch GraphQL Data
+} // Fetch GraphQL Data
 
 
 async function graphQLFetch(query, variables = {}) {
@@ -72,8 +78,8 @@ async function graphQLFetch(query, variables = {}) {
     if (result.errors) {
       const error = result.errors[0];
 
-      if (error.extensions.code == 'BAD_USER_INPUT') {
-        const details = error.extensions.exception.errors.join("\n ");
+      if (error.extensions.code === 'BAD_USER_INPUT') {
+        const details = error.extensions.exception.errors.join('\n ');
         alert(`${error.message}:\n ${details}`);
       } else {
         alert(`${error.extensions.code}:\n ${error.message}`);
@@ -83,6 +89,7 @@ async function graphQLFetch(query, variables = {}) {
     return result.data;
   } catch (e) {
     alert(`Error in sending data to server: ${e.message()}`);
+    return null;
   }
 }
 
@@ -115,10 +122,14 @@ class Clock extends React.Component {
   }
 
   render() {
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "It is ", this.state.date.toLocaleTimeString()));
+    const {
+      dateState
+    } = this.state;
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "It is", dateState.toLocaleTimeString()));
   }
 
-}
+} // eslint-disable-next-line react/prefer-stateless-function
+
 
 class IssueFilter extends React.Component {
   render() {
@@ -127,8 +138,10 @@ class IssueFilter extends React.Component {
 
 }
 
-function IssueTable(props) {
-  const issueRows = props.issues.map(issue => /*#__PURE__*/React.createElement(IssueRow, {
+function IssueTable({
+  issues
+}) {
+  const issueRows = issues.map(issue => /*#__PURE__*/React.createElement(IssueRow, {
     key: issue.id,
     issue: issue
   })); // console.log(this.state);
@@ -138,10 +151,9 @@ function IssueTable(props) {
   }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "ID"), /*#__PURE__*/React.createElement("th", null, "Status"), /*#__PURE__*/React.createElement("th", null, "Owner"), /*#__PURE__*/React.createElement("th", null, "Date Created"), /*#__PURE__*/React.createElement("th", null, "Effort"), /*#__PURE__*/React.createElement("th", null, "Due Date"), /*#__PURE__*/React.createElement("th", null, "Title"))), /*#__PURE__*/React.createElement("tbody", null, issueRows));
 }
 
-;
-
-function IssueRow(props) {
-  const issue = props.issue;
+function IssueRow({
+  issue
+}) {
   return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, issue.id), /*#__PURE__*/React.createElement("td", null, issue.status), /*#__PURE__*/React.createElement("td", null, issue.owner), /*#__PURE__*/React.createElement("td", null, issue.created.toDateString()), /*#__PURE__*/React.createElement("td", null, issue.effort), /*#__PURE__*/React.createElement("td", null, issue.due ? issue.due.toDateString() : ' '), /*#__PURE__*/React.createElement("td", null, issue.title));
 }
 
@@ -152,7 +164,7 @@ class IssueAdd extends React.Component {
   }
 
   handleSubmit(e) {
-    //Prevent from submitting the form to GET HTTP when Add button is clicked
+    // Prevent from submitting the form to GET HTTP when Add button is clicked
     e.preventDefault(); // Get inputted Form and store it to form
 
     const form = document.forms.issueAdd; // Create issue based on form inputs
@@ -162,10 +174,13 @@ class IssueAdd extends React.Component {
       title: form.title.value,
       due: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 4)
     };
-    this.props.createIssue(issue); // Reset form fields.
+    const {
+      createIssue
+    } = this.props;
+    createIssue(issue); // Reset form fields.
 
-    form.owner.value = "";
-    form.title.value = "";
+    form.owner.value = '';
+    form.title.value = '';
   }
 
   render() {
@@ -180,7 +195,9 @@ class IssueAdd extends React.Component {
       type: "text",
       name: "title",
       placeholder: "Title"
-    }), /*#__PURE__*/React.createElement("button", null, "Add"));
+    }), /*#__PURE__*/React.createElement("button", {
+      type: "submit"
+    }, "Add"));
   }
 
 }
@@ -199,7 +216,7 @@ class IssueList extends React.Component {
   }
 
   async loadData() {
-    //GraphQL Query for loadData() method
+    // GraphQL Query for loadData() method
     const query = `query {
             issueList {
                 id
@@ -219,9 +236,9 @@ class IssueList extends React.Component {
       });
     } // this.setState({ issues: result.data.issueList });
 
-  }
+  } // Create new issue sample.
 
-  // Create new issue sample.
+
   async createIssue(issue) {
     // const query = `mutation {
     //     issueAdd(issue: {
