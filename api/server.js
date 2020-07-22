@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 const express = require('express');
 const { ApolloServer, UserInputError } = require('apollo-server-express');
-const { GraphQLScalarType } = require('graphql');
 const fs = require('fs');
-const { Kind } = require('graphql/language');
 const { MongoClient } = require('mongodb');
+const GraphQLDate = require('./graphql_date.js');
 
 const app = express();
 
@@ -123,23 +122,6 @@ async function issueAdd(_, { issue }) {
   const savedIssue = await db.collection('issues').findOne({ _id: result.insertedId });
   return savedIssue;
 }
-
-const GraphQLDate = new GraphQLScalarType({
-  name: 'GraphQLDate',
-  description: 'A Date type in GraphQL as custom scalar',
-  serialize(value) {
-    return value.toISOString();
-  },
-  parseValue(value) {
-    const dateValue = new Date(value);
-    return Number.isNaN(dateValue) ? undefined : dateValue;
-  },
-  parseLiteral(ast) {
-    console.log('Literal');
-    const value = new Date(ast.value);
-    return (ast.kind === Kind.STRING && !Number.isNaN(value)) ? value : undefined;
-  },
-});
 
 // Resolvers are json-based
 const resolvers = {
