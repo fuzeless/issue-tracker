@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 /* eslint-disable max-classes-per-file */
 
 /* eslint "react/react-in-jsx-scope": "off" */
