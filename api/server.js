@@ -4,6 +4,7 @@ const { ApolloServer, UserInputError } = require('apollo-server-express');
 const fs = require('fs');
 const { MongoClient } = require('mongodb');
 const GraphQLDate = require('./graphql_date.js');
+const about = require('./about');
 
 const app = express();
 
@@ -11,8 +12,6 @@ const app = express();
 require('dotenv').config();
 
 let db;
-const aboutMessage = 'Issue Tracker API v0.1';
-const defaultName = 'Le Quang Nhat';
 
 //* Temp DB for API testing:
 // eslint-disable-next-line no-unused-vars
@@ -78,20 +77,10 @@ async function getNewSeq(collectionName) {
 //* End of MongoDB stuff
 
 //* GraphQL Stuff
-/* The following line is the same as:
-    function setAboutMessage(_, { message }) {
-        return aboutMessage = message;
-    }
-*/
-// Also, Mutation functions.
-const setName = (_, { name }) => name;
+
 async function issueList() {
   const issues = await db.collection('issues').find({}).toArray();
   return issues;
-}
-
-function setAboutMessage(_, { message }) {
-  return message;
 }
 
 //* Old issueAdd()
@@ -126,13 +115,13 @@ async function issueAdd(_, { issue }) {
 // Resolvers are json-based
 const resolvers = {
   Query: {
-    about: () => aboutMessage,
-    name: () => defaultName,
+    about: () => about.getMessage,
+    name: () => about.getName,
     issueList,
   },
   Mutation: {
-    setAboutMessage,
-    setName,
+    setAboutMessage: about.setAboutMessage,
+    setName: about.setName,
     issueAdd,
   },
   GraphQLDate,
