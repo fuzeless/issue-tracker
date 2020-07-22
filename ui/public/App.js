@@ -123,9 +123,9 @@ class Clock extends React.Component {
 
   render() {
     const {
-      dateState
+      date
     } = this.state;
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "It is", dateState.toLocaleTimeString()));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "It is", date.toLocaleTimeString()));
   }
 
 } // eslint-disable-next-line react/prefer-stateless-function

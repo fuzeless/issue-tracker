@@ -116,12 +116,12 @@ class Clock extends React.Component {
   }
 
   render() {
-    const { dateState } = this.state;
+    const { date } = this.state;
     return (
       <div>
         <h1>
           It is
-          {dateState.toLocaleTimeString()}
+          {date.toLocaleTimeString()}
         </h1>
       </div>
     );
