@@ -271,8 +271,11 @@ class IssueList extends React.Component {
   }
 
   render() {
+    const {
+      issues
+    } = this.state;
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Issue Tracker"), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueFilter, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueTable, {
-      issues: this.state.issues
+      issues: issues
     }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueAdd, {
       createIssue: this.createIssue
     }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(Clock, null), /*#__PURE__*/React.createElement("hr", null));

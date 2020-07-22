@@ -274,13 +274,14 @@ class IssueList extends React.Component {
   }
 
   render() {
+    const { issues } = this.state;
     return (
       <>
         <h1>Issue Tracker</h1>
         <hr />
         <IssueFilter />
         <hr />
-        <IssueTable issues={this.state.issues} />
+        <IssueTable issues={issues} />
         <hr />
         <IssueAdd createIssue={this.createIssue} />
         <hr />
