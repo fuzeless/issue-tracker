@@ -4,7 +4,7 @@ const { ApolloServer, UserInputError } = require('apollo-server-express');
 const fs = require('fs');
 const { MongoClient } = require('mongodb');
 const GraphQLDate = require('./graphql_date.js');
-const about = require('./about');
+const about = require('./about.js');
 
 const app = express();
 
@@ -115,8 +115,8 @@ async function issueAdd(_, { issue }) {
 // Resolvers are json-based
 const resolvers = {
   Query: {
-    about: () => about.getMessage,
-    name: () => about.getName,
+    about: about.getMessage,
+    name: about.getName,
     issueList,
   },
   Mutation: {
