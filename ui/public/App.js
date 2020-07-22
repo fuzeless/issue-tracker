@@ -2,7 +2,7 @@
 
 /* eslint "react/react-in-jsx-scope": "off" */
 
-/* globals React ReactDOM */
+/* globals React ReactDOM PropTypes */
 
 /* eslint "no-alert": "off" */
 // eslint-disable-next-line no-unused-vars
@@ -94,8 +94,8 @@ async function graphQLFetch(query, variables = {}) {
 }
 
 class Clock extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       date: new Date()
     };
@@ -125,7 +125,7 @@ class Clock extends React.Component {
     const {
       date
     } = this.state;
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "It is", date.toLocaleTimeString()));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, `It is ${date.toLocaleTimeString()}`));
   }
 
 } // eslint-disable-next-line react/prefer-stateless-function
@@ -201,6 +201,10 @@ class IssueAdd extends React.Component {
   }
 
 }
+
+IssueAdd.propTypes = {
+  createIssue: PropTypes.func.isRequired
+};
 
 class IssueList extends React.Component {
   constructor() {

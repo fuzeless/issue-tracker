@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-classes-per-file */
 /* eslint "react/react-in-jsx-scope": "off" */
-/* globals React ReactDOM */
+/* globals React ReactDOM PropTypes */
 /* eslint "no-alert": "off" */
 
 // eslint-disable-next-line no-unused-vars
@@ -42,7 +43,6 @@ const initialIssues = [
     title: 'Missing Title for IssueTracker',
   },
 ];
-
 // Sample Issue for adding new Issue.
 // eslint-disable-next-line no-unused-vars
 const sampleIssue = {
@@ -92,8 +92,8 @@ async function graphQLFetch(query, variables = {}) {
 }
 
 class Clock extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = { date: new Date() };
   }
 
@@ -120,8 +120,7 @@ class Clock extends React.Component {
     return (
       <div>
         <h1>
-          It is
-          {date.toLocaleTimeString()}
+          {`It is ${date.toLocaleTimeString()}`}
         </h1>
       </div>
     );
@@ -214,6 +213,10 @@ class IssueAdd extends React.Component {
     );
   }
 }
+
+IssueAdd.propTypes = {
+  createIssue: PropTypes.func.isRequired,
+};
 
 class IssueList extends React.Component {
   constructor() {
