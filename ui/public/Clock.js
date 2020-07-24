@@ -1,12 +1,18 @@
-class Clock extends React.Component {
-  constructor(props) {
-    super(props);
+/* eslint-disable react/react-in-jsx-scope */
+export default class Clock extends React.Component {
+  constructor() {
+    super();
     this.state = {
       date: new Date()
     };
   }
 
   componentDidMount() {
+    // this.timerID = setInterval(
+    //     () => this.tick(),
+    //     1000
+    // );
+    // requestAnimationFrame(() => this.tick());
     this.tick();
   }
 
@@ -22,7 +28,10 @@ class Clock extends React.Component {
   }
 
   render() {
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "It is ", this.state.date.toLocaleTimeString()));
+    const {
+      date
+    } = this.state;
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, `It is ${date.toLocaleTimeString()}`));
   }
 
 }

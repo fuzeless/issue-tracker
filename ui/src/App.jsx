@@ -3,6 +3,8 @@
 /* eslint "react/react-in-jsx-scope": "off" */
 /* globals React ReactDOM PropTypes */
 /* eslint "no-alert": "off" */
+import graphQLFetch from './graphql_fetch';
+import Clock from './Clock';
 
 // eslint-disable-next-line no-unused-vars
 const initialIssues = [
@@ -54,77 +56,6 @@ const sampleIssue = {
 // eslint-disable-next-line no-unused-vars
 function randomDate(start, end) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-}
-
-// Convert ISO Date to Locale Date using JSON.parse()
-const dateRegex = new RegExp('\\d\\d\\d\\d-\\d\\d-\\d\\d');
-function jsonDateReviver(key, value) {
-  if (dateRegex.test(value)) return new Date(value);
-  return value;
-}
-
-// Fetch GraphQL Data
-async function graphQLFetch(query, variables = {}) {
-  try {
-    const response = await fetch(window.ENV.UI_API_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, variables }),
-    });
-    const body = await response.text();
-    const result = JSON.parse(body, jsonDateReviver);
-
-    if (result.errors) {
-      const error = result.errors[0];
-      if (error.extensions.code === 'BAD_USER_INPUT') {
-        const details = error.extensions.exception.errors.join('\n ');
-        alert(`${error.message}:\n ${details}`);
-      } else {
-        alert(`${error.extensions.code}:\n ${error.message}`);
-      }
-    }
-
-    return result.data;
-  } catch (e) {
-    alert(`Error in sending data to server: ${e.message()}`);
-    return null;
-  }
-}
-
-class Clock extends React.Component {
-  constructor() {
-    super();
-    this.state = { date: new Date() };
-  }
-
-  componentDidMount() {
-    // this.timerID = setInterval(
-    //     () => this.tick(),
-    //     1000
-    // );
-    // requestAnimationFrame(() => this.tick());
-    this.tick();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({ date: new Date() });
-    requestAnimationFrame(this.tick.bind(this));
-  }
-
-  render() {
-    const { date } = this.state;
-    return (
-      <div>
-        <h1>
-          {`It is ${date.toLocaleTimeString()}`}
-        </h1>
-      </div>
-    );
-  }
 }
 
 // eslint-disable-next-line react/prefer-stateless-function
