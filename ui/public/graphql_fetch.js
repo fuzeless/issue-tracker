@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-alert */
+
 // Convert ISO Date to Locale Date using JSON.parse()
 const dateRegex = new RegExp('\\d\\d\\d\\d-\\d\\d-\\d\\d');
 
@@ -7,18 +9,17 @@ function jsonDateReviver(key, value) {
   return value;
 } // Fetch GraphQL Data
 
-
 export default async function graphQLFetch(query, variables = {}) {
   try {
     const response = await fetch(window.ENV.UI_API_ENDPOINT, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         query,
-        variables
-      })
+        variables,
+      }),
     });
     const body = await response.text();
     const result = JSON.parse(body, jsonDateReviver);
