@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable max-classes-per-file */
 /* eslint "react/react-in-jsx-scope": "off" */
-/* globals React ReactDOM PropTypes */
+/* globals React ReactDOM */
 /* eslint "no-alert": "off" */
 import graphQLFetch from './graphql_fetch';
 import Clock from './Clock';
@@ -144,10 +144,6 @@ class IssueAdd extends React.Component {
     );
   }
 }
-
-IssueAdd.propTypes = {
-  createIssue: PropTypes.func.isRequired,
-};
 
 class IssueList extends React.Component {
   constructor() {
