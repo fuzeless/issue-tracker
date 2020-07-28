@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -w . -w .env -e js,graphql server.js",
-    // "compile": "babel src --presets @babel/react --out-dir public",
-    // "watch": "babel src --presets @babel/react --out-dir public --watch --verbose"
     "compile": "webpack --mode production",
     "watch": "webpack --watch"
   },
