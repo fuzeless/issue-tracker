@@ -1,4 +1,4 @@
-/* globals React */
+import React from 'react';
 import IssueRow from './IssueRow.jsx';
 
 export default function IssueTable({ issues }) {

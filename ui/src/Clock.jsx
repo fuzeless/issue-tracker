@@ -1,4 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
+
 export default class Clock extends React.Component {
   constructor() {
     super();

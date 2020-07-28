@@ -1,8 +1,10 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable max-classes-per-file */
 /* eslint "react/react-in-jsx-scope": "off" */
-/* globals React ReactDOM */
 /* eslint "no-alert": "off" */
+// import React from 'react';
+import 'babel-polyfill';
+import 'whatwg-fetch';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import IssueList from './IssueList.jsx';
 
 const element = <IssueList />;

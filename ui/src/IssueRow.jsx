@@ -1,4 +1,4 @@
-/* globals React */
+import React from 'react';
 
 export default function IssueRow({ issue }) {
   return (
