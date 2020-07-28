@@ -5,6 +5,24 @@ const fileServerMiddleware = express.static('public');
 const proxy = require('http-proxy-middleware');
 require('dotenv').config();
 
+const enableHMR = (process.env.ENABLE_HMR || 'true') === 'true';
+if (enableHMR && (process.env.NODE_ENV !== 'production')) {
+  console.log('Dev middleware added, enabling HMR');
+  /* eslint-disable global-require */
+  /* eslint-disable import/no-extraneous-dependencies */
+  const webpack = require('webpack');
+  const devMiddleware = require('webpack-dev-middleware');
+  const hotMiddleware = require('webpack-hot-middleware');
+  const config = require('./webpack.config.js');
+
+  config.entry.app.push('webpack-hot-middleware/client');
+  config.plugins = config.plugins || [];
+  config.plugins.push(new webpack.HotModuleReplacementPlugin());
+  const compiler = webpack(config);
+  app.use(devMiddleware(compiler));
+  app.use(hotMiddleware(compiler));
+}
+
 app.use(fileServerMiddleware);
 
 const apiProxyTarget = process.env.API_PROXY_TARGET;
