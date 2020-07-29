@@ -3,6 +3,7 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 
 import IssueList from './IssueList.jsx';
 import IssueReport from './IssueReport.jsx';
+import IssueEdit from './IssueEdit.jsx';
 
 const NotFound = () => <h1>Bitch u directed to the wrong page, go back dumb dumb</h1>;
 
@@ -11,6 +12,7 @@ export default function Contents() {
     <Switch>
       <Redirect exact from="/" to="/issue" />
       <Route path="/issue" component={IssueList} />
+      <Route path="/edit/:id" component={IssueEdit} />
       <Route path="/report" component={IssueReport} />
       <Route component={NotFound} />
     </Switch>
