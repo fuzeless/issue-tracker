@@ -45,7 +45,7 @@ type Issue {
 type Query {
     about: String!
     name: String!
-    issueList: [Issue!]!
+    issueList(status: StatusType): [Issue!]!
 }
 type Mutation {
     setAboutMessage(message: String!): String
