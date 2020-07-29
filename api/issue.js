@@ -2,9 +2,11 @@ const { UserInputError } = require('apollo-server-express');
 const { getNextSeq, getDB } = require('./db');
 require('dotenv').config();
 
-async function issueList() {
+async function issueList(_, { status }) {
   const db = getDB();
-  const issues = await db.collection('issues').find({}).toArray();
+  const filter = {};
+  if (status) filter.status = status;
+  const issues = await db.collection('issues').find(filter).toArray();
   return issues;
 }
 
