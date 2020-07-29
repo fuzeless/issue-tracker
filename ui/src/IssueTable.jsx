@@ -15,6 +15,7 @@ export default function IssueTable({ issues }) {
           <th>Effort</th>
           <th>Due Date</th>
           <th>Title</th>
+          <th>Tools</th>
         </tr>
       </thead>
       <tbody>
