@@ -6,7 +6,7 @@ function Navbar() {
     <div>
       <a href="/#/">Home</a>
       {' | '}
-      <a href="/#/issue">Issue List</a>
+      <a href="/#/issues">Issue List</a>
       {' | '}
       <a href="/#/report">Report</a>
     </div>

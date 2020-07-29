@@ -10,8 +10,8 @@ const NotFound = () => <h1>Bitch u directed to the wrong page, go back dumb dumb
 export default function Contents() {
   return (
     <Switch>
-      <Redirect exact from="/" to="/issue" />
-      <Route path="/issue" component={IssueList} />
+      <Redirect exact from="/" to="/issues" />
+      <Route path="/issues" component={IssueList} />
       <Route path="/edit/:id" component={IssueEdit} />
       <Route path="/report" component={IssueReport} />
       <Route component={NotFound} />
