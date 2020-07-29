@@ -4,10 +4,15 @@ import React from 'react';
 export default class IssueFilter extends React.Component {
   render() {
     return (
-      <>
-        <div>Placeholder for IssueFilter</div>
-        <p>what should i do lmao</p>
-      </>
+      <div>
+        <a href="/#/issues">All Issues</a>
+        {' | '}
+        <a href="/#/issues?status=New">New Issues</a>
+        {' | '}
+        <a href="/#/issues?status=Assigned">Assigned Issues</a>
+        {' | '}
+        <a href="/#/issues?status=Closed">Closed Issues</a>
+      </div>
     );
   }
 }
