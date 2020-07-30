@@ -28,6 +28,7 @@ input IssueInputs {
     effort: Int
     due: GraphQLDate
     title: String!
+    description: String
 }
 
 # Issue API
@@ -40,12 +41,14 @@ type Issue {
     effort: Int
     due: GraphQLDate
     title: String!
+    description: String
 }
 
 type Query {
     about: String!
     name: String!
     issueList(status: StatusType): [Issue!]!
+    issue(id: Int!): Issue!
 }
 type Mutation {
     setAboutMessage(message: String!): String
