@@ -5,7 +5,7 @@ import IssueList from './IssueList.jsx';
 import IssueReport from './IssueReport.jsx';
 import IssueEdit from './IssueEdit.jsx';
 
-const NotFound = () => <h1>Bitch u directed to the wrong page, go back dumb dumb</h1>;
+const NotFound = () => <h1>Wrong Link try again...</h1>;
 
 export default function Contents() {
   return (
