@@ -19,12 +19,14 @@ export default class IssueDetail extends React.Component {
 
   async loadData() {
     const { match: { params: { id } } } = this.props;
-    const query = `query issue($id: Int!) {
-      issue(id: $id) {
+    // eslint-disable-next-line radix
+    const id2 = parseInt(id);
+    const query = `query issue($id2: Int!) {
+      issue(id: $id2) {
         id description
       }
     }`;
-    const data = await graphQLFetch(query, { id });
+    const data = await graphQLFetch(query, { id2 });
     if (data) {
       this.setState({ issue: data.issue });
     } else {
