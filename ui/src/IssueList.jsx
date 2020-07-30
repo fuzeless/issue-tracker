@@ -1,8 +1,10 @@
 import React from 'react';
+import { Router } from 'react-router-dom';
 import URLSearchParams from 'url-search-params';
 import IssueFilter from './IssueFilter.jsx';
 import IssueTable from './IssueTable.jsx';
 import IssueAdd from './IssueAdd.jsx';
+import IssueDetail from './IssueDetail.jsx';
 import Clock from './Clock.jsx';
 import graphQLFetch from './graphql_fetch.js';
 
@@ -82,6 +84,8 @@ export default class IssueList extends React.Component {
         <IssueTable issues={issues} />
         <hr />
         <IssueAdd createIssue={this.createIssue} />
+        <hr />
+        <Router path={`${match.path}/:${id}`} component={IssueDetail} />
         <hr />
         <Clock />
         <hr />
