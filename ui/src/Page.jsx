@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Contents from './Contents.jsx';
 
-
 function Navbar() {
   return (
     <div>
