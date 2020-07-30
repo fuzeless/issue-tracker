@@ -40,4 +40,10 @@ async function issueAdd(_, { issue }) {
   return savedIssue;
 }
 
-module.exports = { issueAdd, issueList };
+async function getIssue(_, { id }) {
+  const db = getDB();
+  const issue = await db.collection('issues').findOne({ id });
+  return issue;
+}
+
+module.exports = { issueAdd, issueList, getIssue };
