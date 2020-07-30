@@ -30,24 +30,48 @@ const InitialIssues = [
     effort: 5,
     due: new Date('2019-06-08'),
     title: 'Missing Title for IssueTracker!!!',
+    description: 'Steps to recreate the problem:'
+    + '\n1. Refresh the browser.'
+    + '\n2. Select "New" in the filter'
+    + '\n3. Refresh the browser again. Note the warning in the console:'
+    + '\n Warning: Hash history cannot PUSH the same path; a new entry'
+    + '\n will not be added to the history stack'
+    + '\n4. Click on Add.'
+    + '\n5. There is an error in console, and add doesn\'t work.',
   },
   {
     id: 2,
     status: 'Closed',
     owner: 'Ethan',
     created: new Date('2018-07-19'),
-    effort: 5,
+    effort: 3,
     due: new Date(''),
     title: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium, assumenda!',
+    description: 'Steps to recreate the problem:'
+    + '\n1. Refresh the browser.'
+    + '\n2. Select "New" in the filter'
+    + '\n3. Refresh the browser again. Note the warning in the console:'
+    + '\n Warning: Hash history cannot PUSH the same path; a new entry'
+    + '\n will not be added to the history stack'
+    + '\n4. Click on Add.'
+    + '\n5. There is an error in console, and add doesn\'t work.',
   },
   {
     id: 3,
-    status: 'New',
+    status: 'Assigned',
     owner: 'Fuzeless',
     created: new Date('2019-05-30'),
-    effort: 5,
+    effort: 8,
     due: new Date('2019-06-08'),
     title: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+    description: 'Steps to recreate the problem:'
+    + '\n1. Refresh the browser.'
+    + '\n2. Select "New" in the filter'
+    + '\n3. Refresh the browser again. Note the warning in the console:'
+    + '\n Warning: Hash history cannot PUSH the same path; a new entry'
+    + '\n will not be added to the history stack'
+    + '\n4. Click on Add.'
+    + '\n5. There is an error in console, and add doesn\'t work.',
   },
 ];
 
