@@ -35,6 +35,7 @@ async function issueAdd(_, { issue }) {
   validation(passedIssue);
   passedIssue.id = await getNextSeq('issues');
   passedIssue.created = new Date();
+  passedIssue.due = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 4);
   const result = await db.collection('issues').insertOne(passedIssue);
   const savedIssue = await db.collection('issues').findOne({ _id: result.insertedId });
   return savedIssue;
