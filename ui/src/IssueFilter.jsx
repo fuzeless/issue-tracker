@@ -20,14 +20,13 @@ class IssueFilter extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { location: { search } } = this.props;
     const params = new URLSearchParams(search);
     return (
       <div>
         Status:
         {}
-        <select value = {params.get('status')} onChange={this.onChangeStatus}>
+        <select value={params.get('status')} onChange={this.onChangeStatus}>
           <option value="">(All)</option>
           <option value="New">New</option>
           <option value="Assigned">Assigned</option>
