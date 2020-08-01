@@ -32,6 +32,6 @@ class IssueFilter extends React.Component {
     );
   }
 }
-// Default Class doesn't have any Routes => no location, history component
 
+// Default Class doesn't have any Routes => no location, history component
 export default withRouter(IssueFilter);
