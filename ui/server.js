@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const fileServerMiddleware = express.static('public');
@@ -35,6 +36,10 @@ const env = { UI_API_ENDPOINT };
 
 app.get('/env.js', (req, res) => {
   res.send(`window.ENV = ${JSON.stringify(env)}`);
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve('public/index.html'));
 });
 
 const PORT = process.env.UI_SERVER_PORT || 8000;
