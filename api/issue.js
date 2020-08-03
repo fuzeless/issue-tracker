@@ -2,10 +2,15 @@ const { UserInputError } = require('apollo-server-express');
 const { getNextSeq, getDB } = require('./db');
 require('dotenv').config();
 
-async function issueList(_, { status }) {
+async function issueList(_, { status, effortMin, effortMax }) {
   const db = getDB();
   const filter = {};
   if (status) filter.status = status;
+  if (effortMax !== undefined || effortMin !== undefined) {
+    filter.effort = {};
+    if (effortMax !== undefined) filter.effort.$lte = effortMax;
+    if (effortMin !== undefined) filter.effort.$gte = effortMin;
+  }
   const issues = await db.collection('issues').find(filter).toArray();
   return issues;
 }
