@@ -47,22 +47,9 @@ export default class IssueList extends React.Component {
     if (data) {
       this.setState({ issues: data.issueList });
     }
-    // this.setState({ issues: result.data.issueList });
   }
 
-  // Create new issue sample.
-
   async createIssue(issue) {
-    // const query = `mutation {
-    //     issueAdd(issue: {
-    //         owner: "${issue.owner}",
-    //         title: "${issue.title}",
-    //         due: "${issue.due.toISOString()}"
-    //     })
-    //     {
-    //         id
-    //     }
-    // }`;
     const query = `mutation issueAdd($issue: IssueInputs!) {
             issueAdd(issue: $issue) {
                 id
