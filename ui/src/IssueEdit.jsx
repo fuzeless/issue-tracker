@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NumInput from './InputForms/NumInput.jsx';
+import DateInput from './InputForms/DateInput.jsx';
 import graphQLFetch from './graphql_fetch.js';
 
 export default class IssueEdit extends React.Component {
@@ -8,8 +9,10 @@ export default class IssueEdit extends React.Component {
     super();
     this.state = {
       issue: {},
+      invalidFields: {},
     };
     this.onChange = this.onChange.bind(this);
+    this.onValidityChange = this.onValidityChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -31,6 +34,15 @@ export default class IssueEdit extends React.Component {
     this.setState((prevState) => ({
       issue: { ...prevState.issue, [name]: value },
     }));
+  }
+
+  onValidityChange(e, valid) {
+    const { name } = e.target;
+    this.setState((prevState) => {
+      const invalidFields = { ...prevState.invalidFields, [name]: !valid };
+      if (valid) delete invalidFields[name];
+      return { invalidFields };
+    });
   }
 
   handleSubmit(e) {
@@ -56,14 +68,27 @@ export default class IssueEdit extends React.Component {
       issue.due = issue.due ? issue.due.toDateString() : '';
       this.setState({
         issue,
+        invalidFields: {},
       });
     } else {
-      this.setState({ issue: {} });
+      this.setState({
+        issue: {},
+        invalidFields: {},
+      });
     }
   }
 
   render() {
     const { issue: { id } } = this.state;
+    const { invalidFields } = this.state;
+    let validationMessage;
+    if (Object.keys(invalidFields).length !== 0) {
+      validationMessage = (
+        <div className="error">
+          Please correct invalid fields before submitting.
+        </div>
+      );
+    }
     const { match: { params: { id: propId } } } = this.props;
     if (id == null) {
       if (propId != null) {
@@ -120,10 +145,12 @@ export default class IssueEdit extends React.Component {
             <tr>
               <td>Due:</td>
               <td>
-                <input
+                <DateInput
                   name="due"
                   value={due}
                   onChange={this.onChange}
+                  onValidityChange={this.onValidityChange}
+                  key={id}
                 />
               </td>
             </tr>
@@ -156,6 +183,7 @@ export default class IssueEdit extends React.Component {
             </tr>
           </tbody>
         </table>
+        {validationMessage}
         <Link to={`/edit/${id - 1}`}>Prev</Link>
         {' | '}
         <Link to={`/edit/${id + 1}`}>Next</Link>
