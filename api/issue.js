@@ -52,4 +52,16 @@ async function getIssue(_, { id }) {
   return issue;
 }
 
-module.exports = { issueAdd, issueList, getIssue };
+async function issueUpdate(_, { id, changes }) {
+  const db = getDB();
+  if (changes.title || changes.owner || changes.status) {
+    const issue = await db.collection('issues').findOne({ id });
+    Object.assign(issue, changes);
+    validation(issue);
+  }
+  await db.collection('issues').updateOne({ id }, { $set: changes });
+  const result = await db.collection('issues').findOne({ id });
+  return result;
+}
+
+module.exports = { issueAdd, issueList, getIssue, issueUpdate };
