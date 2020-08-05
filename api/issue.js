@@ -29,7 +29,7 @@ async function issueList(_, { status, effortMin, effortMax }) {
 function validation(issue) {
   const errors = [];
   if (issue.title.length < 3) errors.push('Field "Title" must be at least 3 characters long.');
-  if (issue.status === 'Assigned' && issue.owner !== '') errors.push('If assigned, field "Owner" must not be empty.');
+  if (issue.status === 'Assigned' && (issue.owner === '' || !issue.owner)) errors.push('If assigned, field "Owner" must not be empty.');
   // console.log(errors.length);
   if (errors.length > 0) throw new UserInputError('Input error(s) detected', { errors });
 }
