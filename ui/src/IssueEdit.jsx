@@ -121,7 +121,6 @@ export default class IssueEdit extends React.Component {
                 <select name="status" value={status} onChange={this.onChange}>
                   <option value="New">New</option>
                   <option value="Assigned">Assigned</option>
-                  <option value="Fixed">Fixed</option>
                   <option value="Closed">Closed</option>
                 </select>
               </td>
