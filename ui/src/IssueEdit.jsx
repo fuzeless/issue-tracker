@@ -63,7 +63,7 @@ export default class IssueEdit extends React.Component {
     const data = await graphQLFetch(query, { id, changes });
     if (data) {
       this.setState({ issue: data.issueUpdate });
-      alert(`Issue ${id} updated successfully!`);
+      alert(`Issue ID ${id} updated successfully!`);
     }
   }
 
