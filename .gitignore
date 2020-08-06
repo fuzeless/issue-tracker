@@ -3,3 +3,5 @@ ui/package-lock.json
 ui/public/*.js
 ui/public/*.map
 
+ui/public/bootstrap/css/
+ui/public/bootstrap/js/
