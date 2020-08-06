@@ -17,8 +17,7 @@ class IssueFilter extends React.Component {
     this.onChangeEffortMin = this.onChangeEffortMin.bind(this);
     this.onChangeEffortMax = this.onChangeEffortMax.bind(this);
     this.applyFilter = this.applyFilter.bind(this);
-    this.showAllIssues = this.showAllIssues.bind(this);
-    this.showOriginalFilter = this.showOriginalFilter.bind(this);
+    this.clearAllFilters = this.clearAllFilters.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -79,7 +78,7 @@ class IssueFilter extends React.Component {
     });
   }
 
-  showAllIssues() {
+  clearAllFilters() {
     this.setState({
       status: '',
       effortMin: '',
@@ -131,7 +130,7 @@ class IssueFilter extends React.Component {
           Reset
         </button>
         {' | '}
-        <button type="button" onClick={this.showAllIssues}>Show All Issues</button>
+        <button type="button" onClick={this.clearAllFilters}>Clear all filters</button>
       </div>
     );
   }
