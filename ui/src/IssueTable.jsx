@@ -1,5 +1,9 @@
 import React from 'react';
 import { withRouter, Link, NavLink } from 'react-router-dom';
+import {
+  FaRegEdit, FaRegStickyNote, FaRegWindowClose, FaRegTrashAlt,
+} from 'react-icons/fa';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const IssueRow = withRouter(({
   issue,
@@ -9,6 +13,13 @@ const IssueRow = withRouter(({
   deleteIssue,
 }) => {
   const selectLocation = { pathname: `/issues/${issue.id}`, search };
+
+  //* Tooltips
+  const closeTooltip = <Tooltip id="tooltip-close" placement="top">Close Issue</Tooltip>;
+  const deleteTooltip = <Tooltip id="tooltip-delete" placement="top">Delete Issue</Tooltip>;
+  const descriptionTooltip = <Tooltip id="tooltip-description" placement="top">Show Description</Tooltip>;
+  const editTooltip = <Tooltip id="tooltip-edit" placement="top">Edit Issue</Tooltip>;
+
   return (
     <tr>
       <td><center>{issue.id}</center></td>
@@ -19,13 +30,33 @@ const IssueRow = withRouter(({
       <td>{issue.due ? issue.due.toDateString() : ' '}</td>
       <td>{issue.title}</td>
       <td>
-        <Link to={`edit/${issue.id}`}>Edit</Link>
-        {' | '}
-        <NavLink to={selectLocation}>Select</NavLink>
-        {' | '}
-        <button type="button" onClick={() => closeIssue(index)}>Close</button>
-        {' | '}
-        <button type="button" onClick={() => deleteIssue(index)}>Delete</button>
+        <Link to={`edit/${issue.id}`}>
+          <OverlayTrigger overlay={editTooltip}>
+            <Button size="sm" variant="outline-primary">
+              <FaRegEdit />
+            </Button>
+          </OverlayTrigger>
+        </Link>
+        {' '}
+        <NavLink to={selectLocation}>
+          <OverlayTrigger overlay={descriptionTooltip}>
+            <Button size="sm" variant="outline-primary">
+              <FaRegStickyNote />
+            </Button>
+          </OverlayTrigger>
+        </NavLink>
+        {' '}
+        <OverlayTrigger overlay={closeTooltip}>
+          <Button variant="outline-success" size="sm" onClick={() => closeIssue(index)}>
+            <FaRegWindowClose />
+          </Button>
+        </OverlayTrigger>
+        {' '}
+        <OverlayTrigger overlay={deleteTooltip}>
+          <Button variant="outline-danger" size="sm" onClick={() => deleteIssue(index)}>
+            <FaRegTrashAlt />
+          </Button>
+        </OverlayTrigger>
       </td>
     </tr>
   );
