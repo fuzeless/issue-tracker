@@ -121,7 +121,7 @@ export default class IssueList extends React.Component {
     const { match } = this.props;
     return (
       <>
-        <hr />
+        <br />
         <IssueFilter />
         <hr />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
