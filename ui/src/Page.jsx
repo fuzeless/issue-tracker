@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-  Nav, Navbar, NavItem, NavDropdown,
-  MenuItem, Tooltip, OverlayTrigger,
+  Nav, Navbar, NavDropdown,
+  Tooltip, OverlayTrigger,
 } from 'react-bootstrap';
 import { FaPlus, FaChevronDown, FaEllipsisV } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import Contents from './Contents.jsx';
 
 function Navigation() {
-  const createIssueTooltip = <Tooltip id="tooltip-create">Create Issue</Tooltip>
+  const createIssueTooltip = <Tooltip id="tooltip-create">Create Issue</Tooltip>;
   return (
     <div>
       <Navbar expand="lg" bg="dark" variant="dark" fixed="top">
@@ -49,11 +49,22 @@ function Navigation() {
   );
 }
 
+function Footer() {
+  return (
+    <small>
+      <p className="text-center">
+        Helo
+      </p>
+    </small>
+  );
+}
+
 export default function Page() {
   return (
     <div>
       <Navigation />
       <Contents />
+      <Footer />
     </div>
   );
 }
