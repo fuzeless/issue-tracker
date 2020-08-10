@@ -30,33 +30,35 @@ const IssueRow = withRouter(({
       <td>{issue.due ? issue.due.toDateString() : ' '}</td>
       <td>{issue.title}</td>
       <td>
-        <Link to={`/edit/${issue.id}`}>
-          <OverlayTrigger overlay={editTooltip}>
-            <Button size="sm" variant="outline-primary">
-              <FaRegEdit />
+        <center>
+          <Link to={`/edit/${issue.id}`}>
+            <OverlayTrigger overlay={editTooltip}>
+              <Button size="sm" variant="outline-primary">
+                <FaRegEdit />
+              </Button>
+            </OverlayTrigger>
+          </Link>
+          {' '}
+          <NavLink to={selectLocation}>
+            <OverlayTrigger overlay={descriptionTooltip}>
+              <Button size="sm" variant="outline-primary">
+                <FaRegStickyNote />
+              </Button>
+            </OverlayTrigger>
+          </NavLink>
+          {' '}
+          <OverlayTrigger overlay={closeTooltip}>
+            <Button variant="outline-success" size="sm" onClick={() => closeIssue(index)}>
+              <FaRegWindowClose />
             </Button>
           </OverlayTrigger>
-        </Link>
-        {' '}
-        <NavLink to={selectLocation}>
-          <OverlayTrigger overlay={descriptionTooltip}>
-            <Button size="sm" variant="outline-primary">
-              <FaRegStickyNote />
+          {' '}
+          <OverlayTrigger overlay={deleteTooltip}>
+            <Button variant="outline-danger" size="sm" onClick={() => deleteIssue(index)}>
+              <FaRegTrashAlt />
             </Button>
           </OverlayTrigger>
-        </NavLink>
-        {' '}
-        <OverlayTrigger overlay={closeTooltip}>
-          <Button variant="outline-success" size="sm" onClick={() => closeIssue(index)}>
-            <FaRegWindowClose />
-          </Button>
-        </OverlayTrigger>
-        {' '}
-        <OverlayTrigger overlay={deleteTooltip}>
-          <Button variant="outline-danger" size="sm" onClick={() => deleteIssue(index)}>
-            <FaRegTrashAlt />
-          </Button>
-        </OverlayTrigger>
+        </center>
       </td>
     </tr>
   );
