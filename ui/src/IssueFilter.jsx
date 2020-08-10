@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import URLSearchParams from 'url-search-params';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -103,36 +103,45 @@ class IssueFilter extends React.Component {
       effortMin,
     } = this.state;
     return (
-      <div>
-        Status:
-        {' '}
-        <select value={status} onChange={this.onChangeStatus}>
-          <option value="">(All)</option>
-          <option value="New">New</option>
-          <option value="Assigned">Assigned</option>
-          <option value="Closed">Closed</option>
-        </select>
-        {' '}
-        Effort from
-        {' '}
-        <input size={2} value={effortMin} onChange={this.onChangeEffortMin} />
-        {' '}
-        to
-        {' '}
-        <input size={2} value={effortMax} onChange={this.onChangeEffortMax} />
-        {' | '}
-        <Button variant="outline-primary" onClick={this.applyFilter}>Apply</Button>
-        {' '}
-        <Button
-          variant="outline-primary"
-          onClick={this.showOriginalFilter}
-          disabled={!changed}
-        >
-          Reset
-        </Button>
-        {' | '}
-        <Button variant="outline-danger" onClick={this.clearAllFilters}>Clear all filters</Button>
-      </div>
+      <Form>
+        <Form.Group>
+          <Form.Label><h5>Status</h5></Form.Label>
+          <Form.Control as="select"
+            value={status}
+            onChange={this.onChangeStatus}
+          >
+            <option value="">(All)</option>
+            <option value="New">New</option>
+            <option value="Assigned">Assigned</option>
+            <option value="Closed">Closed</option>
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label><h5>Effort Between</h5></Form.Label>
+          <InputGroup className="mb-3">
+            <Form.Control />
+            <InputGroup.Prepend>
+              <InputGroup.Text>and</InputGroup.Text>
+            </InputGroup.Prepend>
+            <Form.Control />
+          </InputGroup>
+        </Form.Group>
+
+        <Form.Group>
+          <Button variant="outline-primary" onClick={this.applyFilter}>Apply</Button>
+          {' '}
+          <Button
+            variant="outline-primary"
+            onClick={this.showOriginalFilter}
+            disabled={!changed}
+          >
+            Reset
+          </Button>
+          {' '}
+          <Button variant="outline-danger" onClick={this.clearAllFilters}>Clear all filters</Button>
+        </Form.Group>
+      </Form>
     );
   }
 }
