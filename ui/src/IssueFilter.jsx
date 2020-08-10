@@ -10,8 +10,8 @@ class IssueFilter extends React.Component {
     const params = new URLSearchParams(search);
     this.state = {
       status: params.get('status') || '',
-      effortMin: params.get('effortMin'),
-      effortMax: params.get('effortMax'),
+      effortMin: params.get('effortMin') || '',
+      effortMax: params.get('effortMax') || '',
       changed: false,
     };
     this.onChangeStatus = this.onChangeStatus.bind(this);
@@ -73,8 +73,8 @@ class IssueFilter extends React.Component {
     const params = new URLSearchParams(search);
     this.setState({
       status: params.get('status') || '',
-      effortMin: params.get('effortMin'),
-      effortMax: params.get('effortMax'),
+      effortMin: params.get('effortMin') || '',
+      effortMax: params.get('effortMax') || '',
       changed: false,
     });
   }
