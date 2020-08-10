@@ -127,11 +127,11 @@ export default class IssueList extends React.Component {
       <Card className="text-center" bg="dark" text="white">
         <Card.Header>
           <Button
-            variant="dark"
+            style={{ 'background-color': 'transparent' }}
             block
             onClick={() => this.setState({ isFilterOpened: !isFilterOpened })}
           >
-            Filter
+            <h4>Filter</h4>
           </Button>
         </Card.Header>
         <Collapse in={isFilterOpened}>
