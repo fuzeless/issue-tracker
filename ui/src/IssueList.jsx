@@ -124,7 +124,7 @@ export default class IssueList extends React.Component {
     const { issues, isFilterOpened } = this.state;
     const { match } = this.props;
     const IssueFilterCard = (
-      <Card className="text-center" bg="dark" text="white">
+      <Card bg="dark" text="white">
         <Card.Header>
           <Button
             style={{ 'background-color': 'transparent' }}
