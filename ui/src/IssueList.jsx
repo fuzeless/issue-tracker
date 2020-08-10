@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { Card } from 'react-bootstrap';
+import { Button, Card, Collapse } from 'react-bootstrap';
 import URLSearchParams from 'url-search-params';
 
 import IssueFilter from './IssueFilter.jsx';
@@ -13,7 +13,10 @@ import graphQLFetch from './graphql_fetch.js';
 export default class IssueList extends React.Component {
   constructor() {
     super();
-    this.state = { issues: [] };
+    this.state = {
+      issues: [],
+      isFilterOpened: false,
+    };
     this.createIssue = this.createIssue.bind(this);
     this.closeIssue = this.closeIssue.bind(this);
     this.deleteIssue = this.deleteIssue.bind(this);
@@ -118,14 +121,26 @@ export default class IssueList extends React.Component {
   }
 
   render() {
-    const { issues } = this.state;
+    const { issues, isFilterOpened } = this.state;
     const { match } = this.props;
     const IssueFilterCard = (
       <Card className="text-center" bg="dark" text="white">
-        <Card.Header as="h4">Filter</Card.Header>
-        <Card.Body>
-          <IssueFilter />
-        </Card.Body>
+        <Card.Header>
+          <Button
+            variant="dark"
+            block
+            onClick={() => this.setState({ isFilterOpened: !isFilterOpened })}
+          >
+            Filter
+          </Button>
+        </Card.Header>
+        <Collapse in={isFilterOpened}>
+          <div>
+            <Card.Body>
+              <IssueFilter />
+            </Card.Body>
+          </div>
+        </Collapse>
       </Card>
     );
     return (
