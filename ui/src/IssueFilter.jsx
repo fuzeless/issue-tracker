@@ -106,7 +106,8 @@ class IssueFilter extends React.Component {
       <Form>
         <Form.Group>
           <Form.Label><h5>Status</h5></Form.Label>
-          <Form.Control as="select"
+          <Form.Control
+            as="select"
             value={status}
             onChange={this.onChangeStatus}
           >
@@ -129,17 +130,17 @@ class IssueFilter extends React.Component {
         </Form.Group>
 
         <Form.Group>
-          <Button variant="outline-primary" onClick={this.applyFilter}>Apply</Button>
+          <Button variant="primary" onClick={this.applyFilter}>Apply</Button>
           {' '}
           <Button
-            variant="outline-primary"
+            variant="primary"
             onClick={this.showOriginalFilter}
             disabled={!changed}
           >
             Reset
           </Button>
           {' '}
-          <Button variant="outline-danger" onClick={this.clearAllFilters}>Clear all filters</Button>
+          <Button variant="danger" onClick={this.clearAllFilters}>Clear all filters</Button>
         </Form.Group>
       </Form>
     );
