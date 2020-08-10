@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Nav, Navbar, NavDropdown,
-  Tooltip, OverlayTrigger,
+  Tooltip, OverlayTrigger, Container,
 } from 'react-bootstrap';
 import { FaPlus, FaChevronDown, FaEllipsisV } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -68,9 +68,11 @@ function Footer() {
 export default function Page() {
   return (
     <div>
-      <Navigation />
-      <Contents />
-      <Footer />
+      <Container fluid>
+        <Navigation />
+        <Contents />
+        <Footer />
+      </Container>
     </div>
   );
 }
