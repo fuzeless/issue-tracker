@@ -3,7 +3,7 @@ import { withRouter, Link, NavLink } from 'react-router-dom';
 import {
   FaRegEdit, FaRegStickyNote, FaRegWindowClose, FaRegTrashAlt,
 } from 'react-icons/fa';
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Button, OverlayTrigger, Tooltip, Table } from 'react-bootstrap';
 
 const IssueRow = withRouter(({
   issue,
@@ -30,7 +30,7 @@ const IssueRow = withRouter(({
       <td>{issue.due ? issue.due.toDateString() : ' '}</td>
       <td>{issue.title}</td>
       <td>
-        <Link to={`edit/${issue.id}`}>
+        <Link to={`/edit/${issue.id}`}>
           <OverlayTrigger overlay={editTooltip}>
             <Button size="sm" variant="outline-primary">
               <FaRegEdit />
@@ -74,22 +74,22 @@ export default function IssueTable({ issues, closeIssue, deleteIssue }) {
   ));
   // console.log(this.state);
   return (
-    <table className="bordered-table">
+    <Table striped bordered hover size="lg" variant="dark" responsive>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Status</th>
-          <th>Owner</th>
-          <th>Date Created</th>
-          <th>Effort</th>
-          <th>Due Date</th>
-          <th>Title</th>
-          <th>Tools</th>
+          <th><center>ID</center></th>
+          <th><center>Status</center></th>
+          <th><center>Owner</center></th>
+          <th><center>Date Created</center></th>
+          <th><center>Effort</center></th>
+          <th><center>Due Date</center></th>
+          <th><center>Title</center></th>
+          <th><center>Tools</center></th>
         </tr>
       </thead>
       <tbody>
         {issueRows}
       </tbody>
-    </table>
+    </Table>
   );
 }
