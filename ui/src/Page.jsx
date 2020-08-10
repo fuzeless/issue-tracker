@@ -16,15 +16,21 @@ function Navigation() {
           Issue Tracker
         </Navbar.Brand>
         <Nav className="mr-auto">
-          <LinkContainer exact to="/">
-            <Nav.Link>Home</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/issues">
-            <Nav.Link>Issue List</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/report">
-            <Nav.Link>Report</Nav.Link>
-          </LinkContainer>
+          <Nav.Item>
+            <LinkContainer exact to="/">
+              <Nav.Link>Home</Nav.Link>
+            </LinkContainer>
+          </Nav.Item>
+          <Nav.Item>
+            <LinkContainer to="/issues">
+              <Nav.Link>Issue List</Nav.Link>
+            </LinkContainer>
+          </Nav.Item>
+          <Nav.Item>
+            <LinkContainer to="/report">
+              <Nav.Link>Report</Nav.Link>
+            </LinkContainer>
+          </Nav.Item>
         </Nav>
         <Nav>
           {/* Create Issue icon */}
@@ -37,9 +43,9 @@ function Navigation() {
             </OverlayTrigger>
           </Nav.Link>
           <NavDropdown
+            alignRight
             id="user-dropdown"
             title={<FaChevronDown />}
-            noCaret
           >
             <NavDropdown.Item>About</NavDropdown.Item>
           </NavDropdown>
