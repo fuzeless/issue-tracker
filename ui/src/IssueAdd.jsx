@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  Card,
+  Form,
+  Button,
+} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default class IssueAdd extends React.Component {
@@ -29,11 +34,30 @@ export default class IssueAdd extends React.Component {
 
   render() {
     return (
-      <form name="issueAdd" onSubmit={this.handleSubmit}>
-        <input type="text" name="owner" placeholder="Owner" />
-        <input type="text" name="title" placeholder="Title" />
-        <button type="submit">Add</button>
-      </form>
+      // <Form name="issueAdd" onSubmit={this.handleSubmit}>
+      //   <input type="text" name="owner" placeholder="Owner" />
+      //   <input type="text" name="title" placeholder="Title" />
+      //   <button type="submit">Add</button>
+      // </Form>
+      <Card bg="dark" text="white">
+        <Card.Header><center><h4>Add Issue</h4></center></Card.Header>
+        <Card.Body>
+          <Form inline name="issueAdd" onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Owner</Form.Label>
+              {' '}
+              <Form.Control as="input" type="text" name="owner" placeholder="Type your Owner here" />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              {' '}
+              <Form.Control as="input" type="text" name="title" placeholder="Type your Title here" />
+              {' '}
+            </Form.Group>
+            <Button type="submit">Add</Button>
+          </Form>
+        </Card.Body>
+      </Card>
     );
   }
 }
