@@ -15,7 +15,6 @@ export default class IssueList extends React.Component {
     super();
     this.state = {
       issues: [],
-      isFilterOpened: false,
     };
     this.createIssue = this.createIssue.bind(this);
     this.closeIssue = this.closeIssue.bind(this);
@@ -121,32 +120,12 @@ export default class IssueList extends React.Component {
   }
 
   render() {
-    const { issues, isFilterOpened } = this.state;
+    const { issues } = this.state;
     const { match } = this.props;
-    const IssueFilterCard = (
-      <Card bg="dark" text="white">
-        <Card.Header>
-          <Button
-            style={{ 'background-color': 'transparent' }}
-            block
-            onClick={() => this.setState({ isFilterOpened: !isFilterOpened })}
-          >
-            <h4>Filter</h4>
-          </Button>
-        </Card.Header>
-        <Collapse in={isFilterOpened}>
-          <div>
-            <Card.Body>
-              <IssueFilter />
-            </Card.Body>
-          </div>
-        </Collapse>
-      </Card>
-    );
     return (
       <>
         <br />
-        {IssueFilterCard}
+        <IssueFilter />
         <br />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
         <hr />
