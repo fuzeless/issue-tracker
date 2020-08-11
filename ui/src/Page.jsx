@@ -3,7 +3,7 @@ import {
   Nav, Navbar, NavDropdown,
   Tooltip, OverlayTrigger, Container,
 } from 'react-bootstrap';
-import { FaPlus, FaChevronDown, FaEllipsisV } from 'react-icons/fa';
+import { FaPlus, FaChevronDown, } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import Contents from './Contents.jsx';
 
@@ -11,7 +11,7 @@ function Navigation() {
   const createIssueTooltip = <Tooltip id="tooltip-create">Create Issue</Tooltip>;
   return (
     <div>
-      <Navbar expand="lg" bg="dark" variant="dark" fixed="top">
+      <Navbar expand="lg" bg="dark" variant="dark">
         <Navbar.Brand>
           Issue Tracker
         </Navbar.Brand>
