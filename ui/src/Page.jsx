@@ -68,7 +68,7 @@ function Footer() {
 export default function Page() {
   return (
     <div>
-      <Container fluid>
+      <Container fluid style={{ paddingLeft: '45px', paddingRight: '45px' }}>
         <Navigation />
         <Contents />
         <Footer />
