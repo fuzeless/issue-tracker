@@ -128,9 +128,8 @@ export default class IssueList extends React.Component {
         <IssueFilter />
         <br />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
-        <hr />
         <IssueAdd createIssue={this.createIssue} />
-        <hr />
+        <br />
         <Route path={`${match.path}/:id`} component={IssueDetail} />
         <hr />
         <Clock />
