@@ -1,6 +1,14 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, Form, InputGroup } from 'react-bootstrap';
+import {
+  Card,
+  Collapse,
+  Button,
+  InputGroup,
+  FormControl, FormGroup, FormLabel,
+  Row,
+  Col,
+} from 'react-bootstrap';
 import URLSearchParams from 'url-search-params';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -13,6 +21,7 @@ class IssueFilter extends React.Component {
       effortMin: params.get('effortMin') || '',
       effortMax: params.get('effortMax') || '',
       changed: false,
+      isFilterOpened: false,
     };
     this.onChangeStatus = this.onChangeStatus.bind(this);
     this.onChangeEffortMin = this.onChangeEffortMin.bind(this);
@@ -101,48 +110,84 @@ class IssueFilter extends React.Component {
       changed,
       effortMax,
       effortMin,
+      isFilterOpened,
     } = this.state;
     return (
-      <Form>
-        <Form.Group>
-          <Form.Label><h5>Status</h5></Form.Label>
-          <Form.Control
-            as="select"
-            value={status}
-            onChange={this.onChangeStatus}
-          >
-            <option value="">(All)</option>
-            <option value="New">New</option>
-            <option value="Assigned">Assigned</option>
-            <option value="Closed">Closed</option>
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group>
-          <Form.Label><h5>Effort Between</h5></Form.Label>
-          <InputGroup className="mb-3">
-            <Form.Control />
-            <InputGroup.Prepend>
-              <InputGroup.Text>and</InputGroup.Text>
-            </InputGroup.Prepend>
-            <Form.Control />
-          </InputGroup>
-        </Form.Group>
-
-        <Form.Group>
-          <Button variant="primary" onClick={this.applyFilter}>Apply</Button>
-          {' '}
+      <Card bg="dark" text="white">
+        <Card.Header>
           <Button
-            variant="primary"
-            onClick={this.showOriginalFilter}
-            disabled={!changed}
+            style={{ backgroundColor: 'transparent', border: 'transparent' }}
+            block
+            onClick={() => this.setState({ isFilterOpened: !isFilterOpened })}
           >
-            Reset
+            <h4>Filter</h4>
           </Button>
-          {' '}
-          <Button variant="danger" onClick={this.clearAllFilters}>Clear all filters</Button>
-        </Form.Group>
-      </Form>
+        </Card.Header>
+        <Collapse in={isFilterOpened}>
+          <div>
+            <Card.Body>
+              <Row>
+                <Col sm={12} md={6} lg={4}>
+                  <FormGroup>
+                    <FormLabel><h5>Status</h5></FormLabel>
+                    <FormControl
+                      as="select"
+                      value={status}
+                      onChange={this.onChangeStatus}
+                    >
+                      <option value="">(All)</option>
+                      <option value="New">New</option>
+                      <option value="Assigned">Assigned</option>
+                      <option value="Closed">Closed</option>
+                    </FormControl>
+                  </FormGroup>
+                </Col>
+
+                <Col sm={12} md={6} lg={4}>
+                  <FormGroup>
+                    <FormLabel><h5>Effort Between</h5></FormLabel>
+                    <InputGroup className="mb-3">
+                      <FormControl value={effortMin} onChange={this.onChangeEffortMin} />
+                      <InputGroup.Prepend>
+                        <InputGroup.Text>and</InputGroup.Text>
+                      </InputGroup.Prepend>
+                      <FormControl value={effortMax} onChange={this.onChangeEffortMax} />
+                    </InputGroup>
+                  </FormGroup>
+                </Col>
+
+                <Col sm={12} md={12} lg={4}>
+                  <FormLabel><h5>&nbsp;</h5></FormLabel>
+                  <FormGroup>
+                    <Button
+                      variant="primary"
+                      onClick={this.applyFilter}
+                    >
+                      Apply
+                    </Button>
+                    {' '}
+                    <Button
+                      variant="primary"
+                      onClick={this.showOriginalFilter}
+                      disabled={!changed}
+                    >
+                      Reset
+                    </Button>
+                    {' '}
+                    <Button
+                      variant="danger"
+                      onClick={this.clearAllFilters}
+                    >
+                      Clear all filters
+                    </Button>
+                    {' '}
+                  </FormGroup>
+                </Col>
+              </Row>
+            </Card.Body>
+          </div>
+        </Collapse>
+      </Card>
     );
   }
 }
