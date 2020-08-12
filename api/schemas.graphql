@@ -15,6 +15,7 @@ scalar GraphQLDate
 enum StatusType {
     New
     Assigned
+    Fixed
     Closed
 }
 
