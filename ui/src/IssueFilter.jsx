@@ -5,7 +5,7 @@ import {
   Collapse,
   Button,
   InputGroup,
-  FormControl, FormGroup, FormLabel,
+  FormControl, FormGroup, FormLabel, Form,
   Row,
   Col,
 } from 'react-bootstrap';
@@ -147,11 +147,11 @@ class IssueFilter extends React.Component {
                   <FormGroup>
                     <FormLabel><h5>Effort Between</h5></FormLabel>
                     <InputGroup className="mb-3">
-                      <FormControl value={effortMin} onChange={this.onChangeEffortMin} />
+                      <Form.Control value={effortMin} onChange={this.onChangeEffortMin} />
                       <InputGroup.Prepend>
                         <InputGroup.Text>and</InputGroup.Text>
                       </InputGroup.Prepend>
-                      <FormControl value={effortMax} onChange={this.onChangeEffortMax} />
+                      <Form.Control value={effortMax} onChange={this.onChangeEffortMax} />
                     </InputGroup>
                   </FormGroup>
                 </Col>
