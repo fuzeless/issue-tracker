@@ -33,7 +33,7 @@ const IssueRow = withRouter(({
         <center>
           <Link to={`/edit/${issue.id}`}>
             <OverlayTrigger overlay={editTooltip}>
-              <Button size="sm" variant="outline-primary">
+              <Button size="sm" variant="primary">
                 <FaRegEdit />
               </Button>
             </OverlayTrigger>
@@ -41,20 +41,20 @@ const IssueRow = withRouter(({
           {' '}
           <NavLink to={selectLocation}>
             <OverlayTrigger overlay={descriptionTooltip}>
-              <Button size="sm" variant="outline-primary">
+              <Button size="sm" variant="primary">
                 <FaRegStickyNote />
               </Button>
             </OverlayTrigger>
           </NavLink>
           {' '}
           <OverlayTrigger overlay={closeTooltip}>
-            <Button variant="outline-success" size="sm" onClick={() => closeIssue(index)}>
+            <Button variant="success" size="sm" onClick={() => closeIssue(index)}>
               <FaRegWindowClose />
             </Button>
           </OverlayTrigger>
           {' '}
           <OverlayTrigger overlay={deleteTooltip}>
-            <Button variant="outline-danger" size="sm" onClick={() => deleteIssue(index)}>
+            <Button variant="danger" size="sm" onClick={() => deleteIssue(index)}>
               <FaRegTrashAlt />
             </Button>
           </OverlayTrigger>
