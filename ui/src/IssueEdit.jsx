@@ -130,6 +130,7 @@ export default class IssueEdit extends React.Component {
                       value={owner}
                       onChange={this.onChange}
                       key={id}
+                      required
                     />
                   </Form.Group>
                 </Col>
@@ -143,6 +144,7 @@ export default class IssueEdit extends React.Component {
                       value={title}
                       onChange={this.onChange}
                       key={id}
+                      required
                     />
                   </Form.Group>
                 </Col>
@@ -181,6 +183,7 @@ export default class IssueEdit extends React.Component {
                       onChange={this.onChange}
                       onValidityChange={this.onValidityChange}
                       key={id}
+                      required
                     />
                   </Form.Group>
                 </Col>
