@@ -1,5 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Card,
+  Form,
+  Button,
+  Row, Col,
+  Container,
+} from 'react-bootstrap';
 
 import NumInput from './InputForms/NumInput.jsx';
 import DateInput from './InputForms/DateInput.jsx';
@@ -108,74 +115,93 @@ export default class IssueEdit extends React.Component {
     const { issue: { created, due } } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h3>{`Editing issue with ID ${id}`}</h3>
-        <table>
-          <tbody>
-            <tr>
-              <td>Created:</td>
-              <td>{created.toDateString()}</td>
-            </tr>
-            <tr>
-              <td>Status:</td>
-              <td>
-                <select name="status" value={status} onChange={this.onChange}>
-                  <option value="New">New</option>
-                  <option value="Assigned">Assigned</option>
-                  <option value="Closed">Closed</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td>Owner:</td>
-              <td>
-                <TextInput
-                  name="owner"
-                  value={owner}
-                  onChange={this.onChange}
-                  key={id}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Effort:</td>
-              <td>
-                <NumInput
-                  name="effort"
-                  value={effort}
-                  onChange={this.onChange}
-                  key={id}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Due:</td>
-              <td>
-                <DateInput
-                  name="due"
-                  value={due}
-                  onChange={this.onChange}
-                  onValidityChange={this.onValidityChange}
-                  key={id}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Title:</td>
-              <td>
-                <TextInput
-                  size={50}
-                  name="title"
-                  value={title}
-                  onChange={this.onChange}
-                  key={id}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Description:</td>
-              <td>
-                <TextInput
+      <Container>
+        <Form onSubmit={this.handleSubmit}>
+          <Card>
+            <Card.Header><center><h3>{`Edit Issue with ID ${id}`}</h3></center></Card.Header>
+            <Card.Body>
+              <Row>
+                <Col lg={3} md={4} sm={4} xs={12}>
+                  <Form.Group>
+                    <Form.Label><strong>Owner</strong></Form.Label>
+                    <Form.Control
+                      as={TextInput}
+                      name="owner"
+                      value={owner}
+                      onChange={this.onChange}
+                      key={id}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col lg={7} md={8} sm={8} xs={12}>
+                  <Form.Group>
+                    <Form.Label><strong>Title</strong></Form.Label>
+                    <Form.Control
+                      as={TextInput}
+                      size={50}
+                      name="title"
+                      value={title}
+                      onChange={this.onChange}
+                      key={id}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col lg={2} md={12} sm={12} xs={12}>
+                  <Form.Group>
+                    <Form.Label><strong>Status</strong></Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="status"
+                      value={status}
+                      onChange={this.onChange}
+                    >
+                      <option value="New">New</option>
+                      <option value="Assigned">Assigned</option>
+                      <option value="Fixed">Fixed</option>
+                      <option value="Closed">Closed</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col>
+                  <Form.Group>
+                    <Form.Label><strong>Created</strong></Form.Label>
+                    <Form.Control placeholder={`${created.toDateString()}`} readOnly />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group>
+                    <Form.Label><strong>Due Date</strong></Form.Label>
+                    <Form.Control
+                      as={DateInput}
+                      name="due"
+                      value={due}
+                      onChange={this.onChange}
+                      onValidityChange={this.onValidityChange}
+                      key={id}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group>
+                    <Form.Label><strong>Effort</strong></Form.Label>
+                    <Form.Control
+                      as={NumInput}
+                      name="effort"
+                      value={effort}
+                      onChange={this.onChange}
+                      key={id}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Form.Group>
+                <Form.Label><strong>Description</strong></Form.Label>
+                <Form.Control
+                  as={TextInput}
                   tag="textarea"
                   rows={8}
                   cols={50}
@@ -184,19 +210,18 @@ export default class IssueEdit extends React.Component {
                   onChange={this.onChange}
                   key={id}
                 />
-              </td>
-            </tr>
-            <tr>
-              <td />
-              <td><button type="submit">Submit</button></td>
-            </tr>
-          </tbody>
-        </table>
-        {validationMessage}
-        <Link to={`/edit/${id - 1}`}>Prev</Link>
-        {' | '}
-        <Link to={`/edit/${id + 1}`}>Next</Link>
-      </form>
+              </Form.Group>
+              <Button variant="outline-primary" type="submit">Submit</Button>
+            </Card.Body>
+            <Card.Footer>
+              {validationMessage}
+              <Link to={`/edit/${id - 1}`}>Prev</Link>
+              {' | '}
+              <Link to={`/edit/${id + 1}`}>Next</Link>
+            </Card.Footer>
+          </Card>
+        </Form>
+      </Container>
     );
   }
 }
