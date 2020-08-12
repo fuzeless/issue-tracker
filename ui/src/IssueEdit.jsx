@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
+  Alert,
   Card,
   Form,
   Button,
@@ -19,10 +20,13 @@ export default class IssueEdit extends React.Component {
     this.state = {
       issue: {},
       invalidFields: {},
+      showingValidation: false,
     };
     this.onChange = this.onChange.bind(this);
     this.onValidityChange = this.onValidityChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.dismissValidation = this.dismissValidation.bind(this);
+    this.showValidation = this.showValidation.bind(this);
   }
 
   componentDidMount() {
@@ -71,7 +75,7 @@ export default class IssueEdit extends React.Component {
     const data = await graphQLFetch(query, { id, changes });
     if (data) {
       this.setState({ issue: data.issueUpdate });
-      alert(`Issue ID ${id} updated successfully!`);
+      this.showValidation();
     }
   }
 
@@ -91,15 +95,27 @@ export default class IssueEdit extends React.Component {
     });
   }
 
+  showValidation() {
+    this.setState({ showingValidation: true });
+  }
+
+  dismissValidation() {
+    this.setState({ showingValidation: false });
+  }
+
   render() {
     const { issue: { id } } = this.state;
-    const { invalidFields } = this.state;
-    let validationMessage;
-    if (Object.keys(invalidFields).length !== 0) {
+    const { invalidFields, showingValidation } = this.state;
+    let validationMessage = (
+      <Alert variant="success" show={showingValidation} onClose={this.dismissValidation} dismissible>
+        {`Issue ID ${id} updated successfully!`}
+      </Alert>
+    );
+    if (Object.keys(invalidFields).length !== 0 && showingValidation) {
       validationMessage = (
-        <div className="error">
-          Please correct invalid fields before submitting.
-        </div>
+        <Alert variant="danger" show={showingValidation} onClose={this.dismissValidation} dismissible>
+          {`Issue ID ${id} failed to update!`}
+        </Alert>
       );
     }
     const { match: { params: { id: propId } } } = this.props;
@@ -214,10 +230,12 @@ export default class IssueEdit extends React.Component {
                   key={id}
                 />
               </Form.Group>
+              <Form.Group>
+                {validationMessage}
+              </Form.Group>
               <Button variant="outline-primary" type="submit">Submit</Button>
             </Card.Body>
             <Card.Footer>
-              {validationMessage}
               <Link to={`/edit/${id - 1}`}>Prev</Link>
               {' | '}
               <Link to={`/edit/${id + 1}`}>Next</Link>

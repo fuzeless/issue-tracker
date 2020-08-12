@@ -1,18 +1,27 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import {
-  Card,
   Form,
   Button,
+  Nav,
+  Modal,
+  OverlayTrigger,
+  Tooltip,
 } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import { FaPlus } from 'react-icons/fa';
+import graphQLFetch from './graphql_fetch.js';
 
-export default class IssueAdd extends React.Component {
+class IssueAdd extends React.Component {
   constructor() {
     super();
+    this.state = { show: false };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     // Prevent from submitting the form to GET HTTP when Add button is clicked
     e.preventDefault();
 
@@ -24,44 +33,71 @@ export default class IssueAdd extends React.Component {
       owner: form.owner.value,
       title: form.title.value,
     };
-    const { createIssue } = this.props;
-    createIssue(issue);
+    const query = `mutation issueAdd($issue: IssueInputs!) {
+      issueAdd(issue: $issue) {
+          id
+      }
+  }`;
+    const data = await graphQLFetch(query, { issue });
+    if (data) {
+      const { history } = this.props;
+      history.push(`/edit/${data.issueAdd.id}`);
+      this.closeModal();
+    }
+  }
 
-    // Reset form fields.
-    form.owner.value = '';
-    form.title.value = '';
+  showModal() {
+    this.setState({ show: true });
+    const { show } = this.state;
+    console.log(show);
+  }
+
+  closeModal() {
+    this.setState({ show: false });
   }
 
   render() {
+    const createIssueTooltip = <Tooltip id="tooltip-create">Create Issue</Tooltip>;
+    const { show } = this.state;
     return (
-      // <Form name="issueAdd" onSubmit={this.handleSubmit}>
-      //   <input type="text" name="owner" placeholder="Owner" />
-      //   <input type="text" name="title" placeholder="Title" />
-      //   <button type="submit">Add</button>
-      // </Form>
-      <Card bg="dark" text="white">
-        <Card.Header><center><h4>Add Issue</h4></center></Card.Header>
-        <Card.Body>
-          <Form inline name="issueAdd" onSubmit={this.handleSubmit}>
-            <Form.Group className="mb-2 mr-sm-2">
-              <Form.Label className="mr-sm-2">Owner</Form.Label>
-              {' '}
-              <Form.Control as="input" type="text" name="owner" placeholder="Type your Owner here" />
-            </Form.Group>
-            <Form.Group className="mb-2 mr-sm-2">
-              <Form.Label className="mr-sm-2">Title</Form.Label>
-              {' '}
-              <Form.Control as="input" type="text" name="title" placeholder="Type your Title here" />
-              {' '}
-            </Form.Group>
-            <Button type="submit" className="mb-2">Add</Button>
-          </Form>
-        </Card.Body>
-      </Card>
+      <>
+        <Nav.Link onClick={this.showModal}>
+          <OverlayTrigger
+            placement="left"
+            overlay={createIssueTooltip}
+          >
+            <FaPlus />
+          </OverlayTrigger>
+        </Nav.Link>
+        <Modal show={show} onHide={this.closeModal}>
+          <Modal.Header closeButton><center><h4>Add Issue</h4></center></Modal.Header>
+          <Modal.Body>
+            <Form name="issueAdd" onSubmit={this.handleSubmit}>
+              <Form.Group>
+                <Form.Label><strong>Owner</strong></Form.Label>
+                {' '}
+                <Form.Control as="input" type="text" name="owner" placeholder="Type your Owner here" />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label><strong>Title</strong></Form.Label>
+                {' '}
+                <Form.Control as="input" type="text" name="title" placeholder="Type your Title here" />
+                {' '}
+              </Form.Group>
+              <Button
+                type="button"
+                className="mb-2"
+                variant="outline-primary"
+                onClick={this.handleSubmit}
+              >
+                Add
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      </>
     );
   }
 }
 
-IssueAdd.propTypes = {
-  createIssue: PropTypes.func.isRequired,
-};
+export default withRouter(IssueAdd);

@@ -6,9 +6,9 @@ import {
 import { FaPlus, FaChevronDown, } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import Contents from './Contents.jsx';
+import IssueAdd from './IssueAdd.jsx';
 
 function Navigation() {
-  const createIssueTooltip = <Tooltip id="tooltip-create">Create Issue</Tooltip>;
   return (
     <div>
       <Navbar expand="lg" bg="dark" variant="dark">
@@ -33,15 +33,7 @@ function Navigation() {
           </Nav.Item>
         </Nav>
         <Nav>
-          {/* Create Issue icon */}
-          <Nav.Link>
-            <OverlayTrigger
-              placement="left"
-              overlay={createIssueTooltip}
-            >
-              <FaPlus />
-            </OverlayTrigger>
-          </Nav.Link>
+          <IssueAdd />
           <NavDropdown
             alignRight
             id="user-dropdown"
