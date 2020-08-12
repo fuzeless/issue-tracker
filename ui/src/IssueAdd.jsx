@@ -43,18 +43,18 @@ export default class IssueAdd extends React.Component {
         <Card.Header><center><h4>Add Issue</h4></center></Card.Header>
         <Card.Body>
           <Form inline name="issueAdd" onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Label>Owner</Form.Label>
+            <Form.Group className="mb-2 mr-sm-2">
+              <Form.Label className="mr-sm-2">Owner</Form.Label>
               {' '}
               <Form.Control as="input" type="text" name="owner" placeholder="Type your Owner here" />
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Title</Form.Label>
+            <Form.Group className="mb-2 mr-sm-2">
+              <Form.Label className="mr-sm-2">Title</Form.Label>
               {' '}
               <Form.Control as="input" type="text" name="title" placeholder="Type your Title here" />
               {' '}
             </Form.Group>
-            <Button type="submit">Add</Button>
+            <Button type="submit" className="mb-2">Add</Button>
           </Form>
         </Card.Body>
       </Card>
