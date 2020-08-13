@@ -1,11 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { Button, Card, Collapse } from 'react-bootstrap';
 import URLSearchParams from 'url-search-params';
 
 import IssueFilter from './IssueFilter.jsx';
 import IssueTable from './IssueTable.jsx';
-import IssueAdd from './IssueAdd.jsx';
 import IssueDetail from './IssueDetail.jsx';
 import Clock from './Clock.jsx';
 import graphQLFetch from './graphql_fetch.js';
