@@ -1,12 +1,13 @@
+/* eslint-disable import/extensions */
 /* eslint "react/react-in-jsx-scope": "off" */
 /* eslint "no-alert": "off" */
-// import React from 'react';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import Page from './Page.jsx';
+
+import Page from '../src/Page.jsx';
 
 const element = (
   <Router>

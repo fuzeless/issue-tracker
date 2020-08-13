@@ -4,7 +4,7 @@
   "description": "First project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -w . -w .env -e js,graphql server.js",
+    "start": "nodemon -w server -w .env -e js,graphql server/server.js",
     "compile": "webpack --mode production",
     "watch": "webpack --watch"
   },

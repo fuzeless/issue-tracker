@@ -5,7 +5,7 @@ require('dotenv').config();
 module.exports = {
   mode: 'development',
   entry: {
-    app: ['./src/App.jsx'],
+    app: ['./browser/App.jsx'],
   },
   output: {
     filename: '[name].bundle.js',
