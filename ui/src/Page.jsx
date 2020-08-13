@@ -39,7 +39,11 @@ function Navigation() {
             id="user-dropdown"
             title={<FaChevronDown />}
           >
-            <NavDropdown.Item>About</NavDropdown.Item>
+            <LinkContainer to="/about">
+              <NavDropdown.Item>
+                About
+              </NavDropdown.Item>
+            </LinkContainer>
           </NavDropdown>
         </Nav>
       </Navbar>
@@ -63,6 +67,7 @@ export default function Page() {
       <Container fluid style={{ paddingLeft: '45px', paddingRight: '45px' }}>
         <Navigation />
         <Contents />
+        <hr />
         <Footer />
       </Container>
     </div>
