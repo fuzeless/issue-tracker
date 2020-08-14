@@ -129,7 +129,6 @@ export default class IssueList extends React.Component {
         <Route path={`${match.path}/:id`} component={IssueDetail} />
         <hr />
         <Clock />
-        <hr />
       </>
     );
   }

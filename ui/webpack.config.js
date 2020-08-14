@@ -1,8 +1,44 @@
 const path = require('path');
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 require('dotenv').config();
 
-module.exports = {
+const serverConfig = {
+  mode: 'development',
+  entry: {
+    server: ['./server/server.js'],
+  },
+  target: 'node',
+  externals: [nodeExternals()],
+  output: {
+    filename: 'server.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', {
+                targets: {
+                  node: '10',
+                },
+              }],
+              '@babel/preset-react',
+            ],
+          },
+        },
+      },
+    ],
+  },
+};
+
+const browserConfig = {
   mode: 'development',
   entry: {
     app: ['./browser/App.jsx'],
@@ -17,7 +53,23 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', {
+                targets: {
+                  ie: '11',
+                  edge: '15',
+                  safari: '10',
+                  firefox: '50',
+                  chrome: '49',
+                },
+              }],
+              '@babel/preset-react',
+            ],
+          },
+        },
       },
     ],
   },
@@ -34,3 +86,5 @@ module.exports = {
     }),
   ],
 };
+
+module.exports = [browserConfig, serverConfig];
