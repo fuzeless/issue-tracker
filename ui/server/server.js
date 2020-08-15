@@ -38,7 +38,9 @@ if (apiProxyTarget) {
 const UI_API_ENDPOINT = process.env.UI_API_ENDPOINT || 'http://localhost:3000/graphql';
 const env = { UI_API_ENDPOINT };
 
-app.get('/about', render);
+app.get('/about', (req, res, next) => {
+  render(req, res, next);
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve('public/index.html'));
@@ -48,3 +50,7 @@ const PORT = process.env.UI_SERVER_PORT || 8000;
 app.listen(PORT, () => {
   console.log(`UI listening on port ${PORT}!`);
 });
+
+if (module.hot) {
+  module.hot.accept('./render.jsx');
+}

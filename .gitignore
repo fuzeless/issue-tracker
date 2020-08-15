@@ -5,3 +5,5 @@ ui/public/*.map
 
 ui/public/bootstrap/css/
 ui/public/bootstrap/js/
+ui/dist/*.json
+ui/dist/*.js
