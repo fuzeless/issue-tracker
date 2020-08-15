@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import About from '../src/About.jsx';
+import { StaticRouter } from 'react-router-dom';
+import Page from '../src/Page.jsx';
 import template from './template.js';
 
 function render(req, res) {
-  const body = ReactDOMServer.renderToString(
-    React.createElement(About),
+  const element = (
+    <StaticRouter location={req.url} context={{}}>
+      <Page />
+    </StaticRouter>
   );
+  const body = ReactDOMServer.renderToString(element);
   res.send(template(body));
 }
 
