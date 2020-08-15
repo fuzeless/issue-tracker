@@ -7,3 +7,4 @@ ui/public/bootstrap/css/
 ui/public/bootstrap/js/
 ui/dist/*.json
 ui/dist/*.js
+ui/dist/server.js
