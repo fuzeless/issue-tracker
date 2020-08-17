@@ -36,6 +36,11 @@ const serverConfig = {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      __isBrowser__: 'false',
+    }),
+  ],
 };
 
 const browserConfig = {
@@ -82,7 +87,7 @@ const browserConfig = {
   devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
-      __UI_API_ENDPOINT__: `'${process.env.UI_API_ENDPOINT}'`,
+      __isBrowser__: 'true',
     }),
   ],
 };
