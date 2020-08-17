@@ -22,7 +22,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "317fc17706a8640288d5";
+/******/ 	var hotCurrentHash = "d56e17cdd544545b3a5d";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -883,7 +883,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var dote
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return template; });\nfunction template(body) {\n  return `<!DOCTYPE html>\n    <html lang=\"en\">\n    <head>\n        <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <link rel=\"stylesheet\" href=\"./bootstrap/css/bootstrap.min.css\">\n        <style>\n            table.bordered-table th, td {border: 1px solid silver; padding: 6px}\n            table.bordered-table {border-collapse: collapse;}\n            input.invalid {border-color: red;}\n            div.error {color: red;}\n            body { padding-top: 20px; }\n            .dropdown-toggle::after{\n                content: none\n            }\n        </style>\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <title>Issue Tracker</title>\n    </head>\n    <body>\n        <div id=\"content\">\n            ${body}\n        </div>\n    </body>\n    </html>`;\n}\n\n//# sourceURL=webpack:///./server/template.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return template; });\nfunction template(body) {\n  return `<!DOCTYPE html>\n    <html lang=\"en\">\n    <head>\n        <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <link rel=\"stylesheet\" href=\"./bootstrap/css/bootstrap.min.css\">\n        <style>\n            table.bordered-table th, td {border: 1px solid silver; padding: 6px}\n            table.bordered-table {border-collapse: collapse;}\n            input.invalid {border-color: red;}\n            div.error {color: red;}\n            body { padding-top: 20px; }\n            .dropdown-toggle::after{\n                content: none\n            }\n        </style>\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <title>Issue Tracker</title>\n    </head>\n    <body>\n        <div id=\"content\">\n            ${body}\n            <script src=\"vendor.bundle.js\"></script>\n            <script src=\"app.bundle.js\"></script>\n        </div>\n    </body>\n    </html>`;\n}\n\n//# sourceURL=webpack:///./server/template.js?");
 
 /***/ }),
 
