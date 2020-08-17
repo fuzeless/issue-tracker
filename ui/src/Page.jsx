@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   Nav, Navbar, NavDropdown,
-  Tooltip, OverlayTrigger, Container,
+  Container,
 } from 'react-bootstrap';
-import { FaPlus, FaChevronDown, } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import Contents from './Contents.jsx';
 import IssueAdd from './IssueAdd.jsx';
