@@ -22,6 +22,8 @@ export default function template(body) {
     <body>
         <div id="content">
             ${body}
+            <script src="vendor.bundle.js"></script>
+            <script src="app.bundle.js"></script>
         </div>
     </body>
     </html>`
