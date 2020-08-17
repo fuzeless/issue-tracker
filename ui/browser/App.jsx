@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable import/extensions */
 /* eslint "react/react-in-jsx-scope": "off" */
 /* eslint "no-alert": "off" */
