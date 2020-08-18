@@ -11,6 +11,7 @@ export default class About extends React.Component {
   constructor() {
     super();
     const apiAbout = store.data ? store.data.about : null;
+    delete store.data;
     this.state = { apiAbout };
   }
 

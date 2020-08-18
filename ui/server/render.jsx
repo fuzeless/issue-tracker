@@ -12,7 +12,8 @@ async function render(req, res) {
   );
   let data;
   if (activeRoute && activeRoute.component.fetchData) {
-    data = await activeRoute.component.fetchData();
+    const match = matchPath(req.path, activeRoute);
+    data = await activeRoute.component.fetchData(match);
   }
   store.data = data;
   const element = (

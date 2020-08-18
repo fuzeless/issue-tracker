@@ -13,12 +13,29 @@ import NumInput from './InputForms/NumInput.jsx';
 import DateInput from './InputForms/DateInput.jsx';
 import TextInput from './InputForms/TextInput.jsx';
 import graphQLFetch from './graphql_fetch.js';
+import store from './store.js';
 
 export default class IssueEdit extends React.Component {
+  static async fetchData(match) {
+    const query = `query issue($id: Int!) {
+      issue(id: $id) {
+        id title owner description
+        created due status effort
+      }
+    }`;
+    let { params: { id } } = match;
+    id = Number.parseInt(id, 10);
+
+    const data = await graphQLFetch(query, { id });
+    return data;
+  }
+
   constructor() {
     super();
+    const issue = store.data ? store.data.issue : null;
+    delete store.data;
     this.state = {
-      issue: {},
+      issue,
       invalidFields: {},
       showingValidation: false,
     };
@@ -30,7 +47,8 @@ export default class IssueEdit extends React.Component {
   }
 
   componentDidMount() {
-    this.loadData();
+    const { issue } = this.state;
+    if (issue == null) this.loadData();
   }
 
   componentDidUpdate(prevProps) {
@@ -80,15 +98,8 @@ export default class IssueEdit extends React.Component {
   }
 
   async loadData() {
-    const query = `query issue($id: Int!){
-      issue(id: $id) {
-        id title owner status description
-        effort created due
-      }
-    }`;
-    let { match: { params: { id } } } = this.props;
-    id = Number.parseInt(id, 10);
-    const data = await graphQLFetch(query, { id });
+    const { match } = this.props;
+    const data = await IssueEdit.fetchData(match);
     this.setState({
       issue: data ? data.issue : {},
       invalidFields: {},
@@ -104,6 +115,8 @@ export default class IssueEdit extends React.Component {
   }
 
   render() {
+    const { issue } = this.state;
+    if (issue == null) return null;
     const { issue: { id } } = this.state;
     const { invalidFields, showingValidation } = this.state;
     let validationMessage = (
