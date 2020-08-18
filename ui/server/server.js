@@ -42,11 +42,8 @@ if (apiProxyTarget) {
   app.use('/graphql', proxy({ target: apiProxyTarget }));
 }
 
-const UI_API_ENDPOINT = process.env.UI_API_ENDPOINT || 'http://localhost:3000/graphql';
-const env = { UI_API_ENDPOINT };
-
 app.get('/env.js', (req, res) => {
-  const env = { UI_API_ENDPOINT: process.env.UI_API_ENDPOINT }
+  const env = { UI_API_ENDPOINT: process.env.UI_API_ENDPOINT };
   res.send(`window.ENV = ${JSON.stringify(env)}`);
 });
 

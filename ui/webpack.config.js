@@ -84,12 +84,12 @@ const browserConfig = {
       chunks: 'all',
     },
   },
-  devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
       __isBrowser__: 'true',
     }),
   ],
+  devtool: 'source-map',
 };
 
 module.exports = [browserConfig, serverConfig];
