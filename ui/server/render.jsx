@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter, matchPath } from 'react-router-dom';
 import Page from '../src/Page.jsx';
 import template from './template.js';
 import store from '../src/store.js';
-import About from '../src/About.jsx';
+import routes from '../src/routes.js';
 
 async function render(req, res) {
-  const data = await About.fetchAbout();
+  const activeRoute = routes.find(
+    (route) => matchPath(req.path, route),
+  );
+  let data;
+  if (activeRoute && activeRoute.component.fetchData) {
+    data = await activeRoute.component.fetchData();
+  }
   store.data = data;
   const element = (
     <StaticRouter location={req.url} context={{}}>
@@ -15,7 +21,6 @@ async function render(req, res) {
     </StaticRouter>
   );
   const body = ReactDOMServer.renderToString(element);
-  console.log(body);
   res.send(template(body, data));
 }
 

@@ -1,22 +1,14 @@
 import React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
-
-import IssueList from './IssueList.jsx';
-import IssueReport from './IssueReport.jsx';
-import IssueEdit from './IssueEdit.jsx';
-import About from './About.jsx';
-
-const NotFound = () => <h1>Wrong Link try again...</h1>;
+import routes from './routes.js';
 
 export default function Contents() {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  const routesRender = routes.map((data) => <Route {...data} key={data.path} />);
   return (
     <Switch>
       <Redirect exact from="/" to="/issues" />
-      <Route path="/issues" component={IssueList} />
-      <Route path="/edit/:id" component={IssueEdit} />
-      <Route path="/report" component={IssueReport} />
-      <Route path="/about" component={About} />
-      <Route component={NotFound} />
+      {routesRender}
     </Switch>
   );
 }
