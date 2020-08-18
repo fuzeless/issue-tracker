@@ -9,14 +9,14 @@ import store from '../src/store.js';
 async function render(req, res) {
   const query = 'query { about }';
   const data = await graphQLFetch(query);
-  store.data = data;
   const element = (
     <StaticRouter location={req.url} context={{}}>
       <Page />
     </StaticRouter>
   );
   const body = ReactDOMServer.renderToString(element);
-  res.send(template(body));
+  console.log(body);
+  res.send(template(body, data));
 }
 
 export default render;

@@ -8,6 +8,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 
 import Page from '../src/Page.jsx';
+import store from '../src/store.js';
+
+store.data = window.__DATA__;
 
 const element = (
   <Router>

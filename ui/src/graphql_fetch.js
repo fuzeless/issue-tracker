@@ -10,7 +10,7 @@ function jsonDateReviver(key, value) {
 
 // Fetch GraphQL Data
 export default async function graphQLFetch(query, variables = {}) {
-  const apiEndpoint = __isBrowser__
+  const apiEndpoint = (__isBrowser__)
     ? window.ENV.UI_API_ENDPOINT : process.env.UI_SERVER_API_ENDPOINT;
   try {
     const response = await fetch(apiEndpoint, {

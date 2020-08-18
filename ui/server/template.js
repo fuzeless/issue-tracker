@@ -1,8 +1,8 @@
-export default function template(body) {
+export default function template(body, data) {
   return (
     `<!DOCTYPE html>
     <html lang="en">
-    <!-- Page rendered from server using template.js -->
+    <!-- Page rendered from server using template.jssdjsakldjsakds. -->
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +21,10 @@ export default function template(body) {
         <title>Issue Tracker</title>
     </head>
     <body>
-        <div id="content">
-            ${body}
-            <script src="vendor.bundle.js"></script>
-            <script src="app.bundle.js"></script>
-        </div>
+        <div id="content">${body}</div>
+        <script>window.__DATA__ = ${JSON.stringify(data)}</script>
+        <script src="/vendor.bundle.js"></script>
+        <script src="/app.bundle.js"></script>
     </body>
     </html>`
   );
