@@ -3,7 +3,6 @@ const fs = require('fs');
 const GraphQLDate = require('./graphql_date.js');
 const about = require('./about.js');
 const issue = require('./issue');
-//* Inject(?) into env variables?
 require('dotenv').config();
 
 // Resolvers are json-based
