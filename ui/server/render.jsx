@@ -9,6 +9,7 @@ import store from '../src/store.js';
 async function render(req, res) {
   const query = 'query { about }';
   const data = await graphQLFetch(query);
+  store.data = data;
   const element = (
     <StaticRouter location={req.url} context={{}}>
       <Page />
