@@ -3,12 +3,11 @@ import ReactDOMServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import Page from '../src/Page.jsx';
 import template from './template.js';
-import graphQLFetch from '../src/graphql_fetch.js';
 import store from '../src/store.js';
+import About from '../src/About.jsx';
 
 async function render(req, res) {
-  const query = 'query { about }';
-  const data = await graphQLFetch(query);
+  const data = await About.fetchAbout();
   store.data = data;
   const element = (
     <StaticRouter location={req.url} context={{}}>
