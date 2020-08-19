@@ -16,7 +16,7 @@ import graphQLFetch from './graphql_fetch.js';
 import store from './store.js';
 
 export default class IssueEdit extends React.Component {
-  static async fetchData(match) {
+  static async fetchData(match, search) {
     const query = `query issue($id: Int!) {
       issue(id: $id) {
         id title owner description
@@ -99,7 +99,7 @@ export default class IssueEdit extends React.Component {
 
   async loadData() {
     const { match } = this.props;
-    const data = await IssueEdit.fetchData(match);
+    const data = await IssueEdit.fetchData(match, null);
     this.setState({
       issue: data ? data.issue : {},
       invalidFields: {},
