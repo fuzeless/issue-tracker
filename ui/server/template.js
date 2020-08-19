@@ -1,3 +1,5 @@
+import serialize from 'serialize-javascript';
+
 export default function template(body, data) {
   return (
     `<!DOCTYPE html>
@@ -5,7 +7,6 @@ export default function template(body, data) {
     <!-- Page rendered from server using template.jssdjsakldjsakds. -->
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
         <style>
             table.bordered-table th, td {border: 1px solid silver; padding: 6px}
@@ -22,7 +23,7 @@ export default function template(body, data) {
     </head>
     <body>
         <div id="content">${body}</div>
-        <script>window.__DATA__ = ${JSON.stringify(data)}</script>
+        <script>window.__DATA__ = ${serialize(data)}</script>
         <script src="/env.js"></script>
         <script src="/vendor.bundle.js"></script>
         <script src="/app.bundle.js"></script>
