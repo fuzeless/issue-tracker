@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import URLSearchParams from 'url-search-params';
 
 import IssueFilter from './IssueFilter.jsx';
@@ -12,17 +11,26 @@ import store from './store.js';
 export default class IssueList extends React.Component {
   static async fetchData(match, search) {
     const params = new URLSearchParams(search);
-    const vars = {};
+    const vars = { hasSelection: false, selectedId: 0 };
+
     if (params.get('status')) vars.status = params.get('status');
     const effortMin = parseInt(params.get('effortMin'), 10);
     if (!Number.isNaN(effortMin)) vars.effortMin = effortMin;
     const effortMax = parseInt(params.get('effortMax'), 10);
     if (!Number.isNaN(effortMax)) vars.effortMax = effortMax;
 
+    const { params: { id } } = match;
+    const idInt = Number.parseInt(id, 10);
+    if (!Number.isNaN(idInt)) {
+      vars.hasSelection = true;
+      vars.selectedId = idInt;
+    }
     const query = `query issueList(
       $status: StatusType
       $effortMin: Int
       $effortMax: Int
+      $hasSelection: Boolean!
+      $selectedId: Int!
       ){
             issueList(
               status: $status
@@ -37,6 +45,9 @@ export default class IssueList extends React.Component {
                 created
                 due
             }
+            issue(id: $selectedId) @include (if: $hasSelection){
+              id description
+            }
         }`;
     const data = await graphQLFetch(query, vars);
     return data;
@@ -45,8 +56,10 @@ export default class IssueList extends React.Component {
   constructor() {
     super();
     const issues = store.data ? store.data.issueList : null;
+    const selectedIssue = store.data ? store.data.issue : null;
     this.state = {
       issues,
+      selectedIssue,
     };
     delete store.data;
     this.createIssue = this.createIssue.bind(this);
@@ -62,16 +75,22 @@ export default class IssueList extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { location: { search: prevSearch } } = prevProps;
-    const { location: { search } } = this.props;
-    if (prevSearch !== search) this.loadData();
+    const {
+      location: { search: prevSearch },
+      match: { params: { id: prevId } },
+    } = prevProps;
+    const {
+      location: { search },
+      match: { params: { id } },
+    } = this.props;
+    if (prevSearch !== search || prevId !== id) this.loadData();
   }
 
   async loadData() {
-    const { location: { search } } = this.props;
-    const data = await IssueList.fetchData(null, search);
+    const { location: { search }, match } = this.props;
+    const data = await IssueList.fetchData(match, search);
     if (data) {
-      this.setState({ issues: data.issueList });
+      this.setState({ issues: data.issueList, selectedIssue: data.issue });
     }
   }
 
@@ -129,16 +148,16 @@ export default class IssueList extends React.Component {
   }
 
   render() {
-    const { issues } = this.state;
+    const { issues, selectedIssue } = this.state;
     if (issues == null) return null;
-    const { match } = this.props;
     return (
       <>
         <br />
         <IssueFilter />
         <br />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
-        <Route path={`${match.path}/:id`} component={IssueDetail} />
+        <hr />
+        <IssueDetail issue={selectedIssue} />
         <hr />
         <Clock />
       </>

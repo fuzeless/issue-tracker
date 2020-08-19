@@ -10,6 +10,7 @@ const routes = [
   { path: '/report', component: IssueReport },
   { path: '/about', component: About },
   { path: '*', component: NotFound },
+  { path: '/issues/:id?', component: IssueList },
 ];
 
 export default routes;
