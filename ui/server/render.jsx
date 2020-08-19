@@ -18,13 +18,16 @@ async function render(req, res) {
     data = await activeRoute.component.fetchData(match, search);
   }
   store.data = data;
+  const context = {}
   const element = (
-    <StaticRouter location={req.url} context={{}}>
+    <StaticRouter location={req.url} context={context}>
       <Page />
     </StaticRouter>
   );
   const body = ReactDOMServer.renderToString(element);
-  res.send(template(body, data));
+  if (context.url) {
+    res.redirect(301, context.url);
+  } else res.send(template(body, data));
 }
 
 export default render;
