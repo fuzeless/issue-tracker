@@ -18,7 +18,7 @@ async function render(req, res) {
     data = await activeRoute.component.fetchData(match, search);
   }
   store.data = data;
-  const context = {}
+  const context = {};
   const element = (
     <StaticRouter location={req.url} context={context}>
       <Page />
