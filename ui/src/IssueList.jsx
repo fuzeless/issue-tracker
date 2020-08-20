@@ -153,7 +153,7 @@ export default class IssueList extends React.Component {
     return (
       <>
         <br />
-        <IssueFilter />
+        <IssueFilter urlBase="/issues" />
         <br />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
         <hr />
