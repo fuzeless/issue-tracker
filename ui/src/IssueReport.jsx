@@ -8,7 +8,7 @@ export default class IssueReport extends React.Component {
     super();
     this.state = {
       isFilterOpened: false,
-    }
+    };
   }
 
   render() {
