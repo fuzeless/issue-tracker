@@ -1,5 +1,7 @@
 import React from 'react';
 import URLSearchParams from 'url-search-params';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Pagination } from 'react-bootstrap';
 
 import IssueFilter from './IssueFilter.jsx';
 import IssueTable from './IssueTable.jsx';
@@ -7,6 +9,21 @@ import IssueDetail from './IssueDetail.jsx';
 import Clock from './Clock.jsx';
 import graphQLFetch from './graphql_fetch.js';
 import store from './store.js';
+
+function PageLink({
+  params, page, activePage, children,
+}) {
+  params.set('page', page);
+  if (page === 0) return React.cloneElement(children, { disabled: true });
+  return (
+    <LinkContainer
+      isActive={() => page === activePage}
+      to={{ search: `?${params.toString()}` }}
+    >
+      {children}
+    </LinkContainer>
+  );
+}
 
 export default class IssueList extends React.Component {
   static async fetchData(match, search) {
@@ -64,11 +81,14 @@ export default class IssueList extends React.Component {
 
   constructor() {
     super();
-    const issues = store.data ? store.data.issueList.issues : null;
-    const selectedIssue = store.data ? store.data.issue : null;
+    const data = store.data || { issueList: {} };
+    const {
+      issueList: { issues, pages }, issue: selectedIssue,
+    } = data;
     this.state = {
       issues,
       selectedIssue,
+      pages,
     };
     delete store.data;
     this.createIssue = this.createIssue.bind(this);
@@ -99,7 +119,11 @@ export default class IssueList extends React.Component {
     const { location: { search }, match } = this.props;
     const data = await IssueList.fetchData(match, search);
     if (data) {
-      this.setState({ issues: data.issueList.issues, selectedIssue: data.issue });
+      this.setState({
+        issues: data.issueList.issues,
+        selectedIssue: data.issue,
+        pages: data.issueList.pages,
+      });
     }
   }
 
@@ -159,12 +183,43 @@ export default class IssueList extends React.Component {
   render() {
     const { issues, selectedIssue } = this.state;
     if (issues == null) return null;
+
+    const SECTION_SIZE = 5;
+    const { pages } = this.state;
+    const { location: { search } } = this.props;
+    const params = new URLSearchParams(search);
+    let page = parseInt(params.get('page'), 10);
+    if (Number.isNaN(page)) page = 1;
+    const startPage = Math.floor((page - 1) / SECTION_SIZE) * SECTION_SIZE + 1;
+    const endPage = startPage + SECTION_SIZE - 1;
+    const prevSection = startPage === 1 ? 0 : startPage - SECTION_SIZE;
+    const nextSection = endPage >= pages ? 0 : startPage + SECTION_SIZE;
+
+    const items = [];
+    for (let i = startPage; i <= Math.min(endPage, pages); i += 1) {
+      params.set('page', i);
+      items.push((
+        <PageLink key={i} params={params} activePage={page} page={i}>
+          <Pagination.Item>{i}</Pagination.Item>
+        </PageLink>
+      ));
+    }
+
     return (
       <>
         <br />
         <IssueFilter urlBase="/issues" />
         <br />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
+        <Pagination>
+          <PageLink params={params} page={prevSection}>
+            <Pagination.Prev />
+          </PageLink>
+          {items}
+          <PageLink params={params} page={nextSection}>
+            <Pagination.Next />
+          </PageLink>
+        </Pagination>
         <hr />
         <IssueDetail issue={selectedIssue} />
         <hr />
