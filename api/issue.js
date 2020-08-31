@@ -85,6 +85,19 @@ async function issueDelete(_, { id }) {
   return false;
 }
 
+async function issueRestore(_, { id }) {
+  const db = getDB();
+  const issue = await db.collection('deleted_issues').findOne({ id });
+  if (!issue) return false;
+  issue.deleted = new Date();
+  let result = await db.collection('issues').insertOne(issue);
+  if (result.insertedId) {
+    result = await db.collection('deleted_issues').removeOne({ id });
+    return result.deletedCount === 1;
+  }
+  return false;
+}
+
 async function issueCounts(_, { status, effortMin, effortMax }) {
   const filter = {};
   if (status) filter.status = status;
@@ -116,4 +129,12 @@ async function issueCounts(_, { status, effortMin, effortMax }) {
   return Object.values(stats);
 }
 
-module.exports = { issueAdd, issueList, getIssue, issueUpdate, issueDelete, issueCounts };
+module.exports = {
+  issueAdd,
+  issueList,
+  getIssue,
+  issueUpdate,
+  issueDelete,
+  issueRestore,
+  issueCounts,
+};
