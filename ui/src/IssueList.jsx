@@ -25,25 +25,34 @@ export default class IssueList extends React.Component {
       vars.hasSelection = true;
       vars.selectedId = idInt;
     }
+
+    let page = parseInt(params.get('page'), 10);
+    if (Number.isNaN(page)) page = 1;
+    vars.page = page;
     const query = `query issueList(
       $status: StatusType
       $effortMin: Int
       $effortMax: Int
       $hasSelection: Boolean!
       $selectedId: Int!
+      $page: Int
       ){
             issueList(
               status: $status
               effortMin: $effortMin
               effortMax: $effortMax
+              page: $page
               ) {
-                id
-                status
-                title
-                owner
-                effort
-                created
-                due
+                issues {
+                  id
+                  status
+                  title
+                  owner
+                  effort
+                  created
+                  due
+                }
+                pages
             }
             issue(id: $selectedId) @include (if: $hasSelection){
               id description
@@ -55,7 +64,7 @@ export default class IssueList extends React.Component {
 
   constructor() {
     super();
-    const issues = store.data ? store.data.issueList : null;
+    const issues = store.data ? store.data.issueList.issues : null;
     const selectedIssue = store.data ? store.data.issue : null;
     this.state = {
       issues,
@@ -90,7 +99,7 @@ export default class IssueList extends React.Component {
     const { location: { search }, match } = this.props;
     const data = await IssueList.fetchData(match, search);
     if (data) {
-      this.setState({ issues: data.issueList, selectedIssue: data.issue });
+      this.setState({ issues: data.issueList.issues, selectedIssue: data.issue });
     }
   }
 

@@ -2,7 +2,7 @@ const { UserInputError } = require('apollo-server-express');
 const { getNextSeq, getDB } = require('./db');
 require('dotenv').config();
 
-async function issueList(_, { status, effortMin, effortMax }) {
+async function issueList(_, { status, effortMin, effortMax, page }) {
   const db = getDB();
   const filter = {};
   if (status) filter.status = status;
@@ -11,8 +11,16 @@ async function issueList(_, { status, effortMin, effortMax }) {
     if (effortMax !== undefined) filter.effort.$lte = effortMax;
     if (effortMin !== undefined) filter.effort.$gte = effortMin;
   }
-  const issues = await db.collection('issues').find(filter).toArray();
-  return issues;
+
+  const PAGE_SIZE = 10;
+  const cursor = await db.collection('issues').find(filter)
+    .sort({ id: 1 })
+    .skip(PAGE_SIZE * (page - 1))
+    .limit(PAGE_SIZE);
+  const totalCount = await cursor.count(false);
+  const issues = cursor.toArray();
+  const pages = Math.ceil(totalCount / PAGE_SIZE);
+  return { issues, pages };
 }
 
 //* Old issueAdd()
