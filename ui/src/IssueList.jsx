@@ -1,7 +1,7 @@
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Pagination } from 'react-bootstrap';
+import { Pagination, Button } from 'react-bootstrap';
 
 import IssueFilter from './IssueFilter.jsx';
 import IssueTable from './IssueTable.jsx';
@@ -94,6 +94,7 @@ export default class IssueList extends React.Component {
     this.createIssue = this.createIssue.bind(this);
     this.closeIssue = this.closeIssue.bind(this);
     this.deleteIssue = this.deleteIssue.bind(this);
+    this.restoreIssue = this.restoreIssue.bind(this);
   }
 
   componentDidMount() {
@@ -175,7 +176,25 @@ export default class IssueList extends React.Component {
         newList.splice(index, 1);
         return { issues: newList };
       });
+      const undoMsg = (
+        <span>
+          {`Deleted issue with id ${id}`}
+          <Button variant="outline-primary" onClick={() => this.restoreIssue(id)}>
+            Undo
+          </Button>
+        </span>
+      );
     } else {
+      this.loadData();
+    }
+  }
+
+  async restoreIssue(id) {
+    const query = `mutation issueRestore($id: Int!) {
+      issueRestore(id: $id)
+    }`;
+    const data = await graphQLFetch(query, { id });
+    if (data) {
       this.loadData();
     }
   }
