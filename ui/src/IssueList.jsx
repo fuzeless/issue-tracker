@@ -212,12 +212,18 @@ export default class IssueList extends React.Component {
         <br />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
         <Pagination>
+          <PageLink params={params} page={1}>
+            <Pagination.First />
+          </PageLink>
           <PageLink params={params} page={prevSection}>
             <Pagination.Prev />
           </PageLink>
           {items}
           <PageLink params={params} page={nextSection}>
             <Pagination.Next />
+          </PageLink>
+          <PageLink params={params} page={pages}>
+            <Pagination.Last />
           </PageLink>
         </Pagination>
         <hr />
