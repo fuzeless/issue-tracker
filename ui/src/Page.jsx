@@ -7,6 +7,7 @@ import { FaChevronDown } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import Contents from './Contents.jsx';
 import IssueAdd from './IssueAdd.jsx';
+import SignInNavItem from './SignInNavItem.jsx';
 
 function Navigation() {
   return (
@@ -34,6 +35,7 @@ function Navigation() {
         </Nav>
         <Nav>
           <IssueAdd />
+          <SignInNavItem />
           <NavDropdown
             alignRight
             id="user-dropdown"
