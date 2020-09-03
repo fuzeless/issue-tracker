@@ -1,1 +1,1 @@
-Symlink this bootstrap directory to ui/node_modules/bootstrap/dist
+Symlink ui/node_modules/bootstrap/dist to this directory
