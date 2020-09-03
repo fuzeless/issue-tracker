@@ -15,6 +15,7 @@ export default class SignInNavItem extends React.Component {
         signedIn: false,
         givenName: '',
       },
+      disabled: true,
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -22,7 +23,24 @@ export default class SignInNavItem extends React.Component {
     this.signOut = this.signOut.bind(this);
   }
 
+  componentDidMount() {
+    const clientId = window.ENV.GOOGLE_CLIENT_ID;
+    if (!clientId) return;
+    window.gapi.load('auth2', () => {
+      if (!window.gapi.auth2.getAuthInstance()) {
+        window.gapi.auth2.init({ client_id: clientId })
+          .then(() => this.setState({ disabled: false }));
+      }
+    });
+  }
+
   showModal() {
+    const clientId = window.ENV.GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      // eslint-disable-next-line no-alert
+      alert('Missing environment variable GOOGLE_CLIENT_ID');
+      return;
+    }
     this.setState({ showing: true });
   }
 
@@ -30,8 +48,16 @@ export default class SignInNavItem extends React.Component {
     this.setState({ showing: false });
   }
 
-  signIn() {
-    this.setState({ user: { signedIn: true, givenName: 'User1' } });
+  async signIn() {
+    try {
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      const googleUser = await auth2.signIn();
+      const givenName = googleUser.getBasicProfile().getGivenName();
+      console.log(googleUser);
+      this.setState({ user: { signedIn: true, givenName } });
+    } catch (error) {
+      alert(`Error communicating with Google: ${error.error}`);
+    }
     this.hideModal();
   }
 
@@ -63,10 +89,7 @@ export default class SignInNavItem extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <Button variant="primary" onClick={this.signIn}>
-              Sign In
-            </Button>
-            <Button variant="primary">
-              Sign In using Google Account
+              Sign In with Google (Beta)
             </Button>
           </Modal.Body>
         </Modal>

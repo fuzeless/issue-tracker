@@ -4,7 +4,7 @@ export default function template(body, data) {
   return (
     `<!DOCTYPE html>
     <html lang="en">
-    <!-- Page rendered from server using template.jssdjsakldjsakds. -->
+    <!-- Page rendered from server using template. -->
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
@@ -19,6 +19,7 @@ export default function template(body, data) {
             }
         </style>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://apis.google.com/js/platform.js"></script>
         <title>Issue Tracker</title>
     </head>
     <body>
