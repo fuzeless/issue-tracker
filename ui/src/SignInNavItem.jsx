@@ -49,14 +49,29 @@ export default class SignInNavItem extends React.Component {
   }
 
   async signIn() {
+    let googleToken;
     try {
       const auth2 = window.gapi.auth2.getAuthInstance();
       const googleUser = await auth2.signIn();
-      const givenName = googleUser.getBasicProfile().getGivenName();
-      console.log(googleUser);
-      this.setState({ user: { signedIn: true, givenName } });
+      googleToken = googleUser.getAuthResponse().id_token;
     } catch (error) {
       alert(`Error communicating with Google: ${error.error}`);
+    }
+
+    try {
+      const apiEndpoint = window.ENV.UI_AUTH_ENDPOINT;
+      const response = await fetch(`${apiEndpoint}/signin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ google_token: googleToken }),
+      });
+      const body = await response.text();
+      const result = JSON.parse(body);
+      const { signedIn, givenName } = result;
+
+      this.setState({ user: { givenName, signedIn } });
+    } catch (error) {
+      alert(`Error signing into app: ${error}`)
     }
     this.hideModal();
   }

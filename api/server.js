@@ -2,9 +2,12 @@
 const express = require('express');
 const { connectToDB } = require('./db');
 const { installHandler } = require('./api_handler');
+const auth = require('./auth.js');
 require('dotenv').config();
 
 const app = express();
+
+app.use('/auth', auth.routes);
 
 installHandler(app);
 
