@@ -58,6 +58,7 @@ export default class SignInNavItem extends React.Component {
       alert(`Error communicating with Google: ${error.error}`);
     }
 
+    //* Send googleToken to backend server for authentication
     try {
       const apiEndpoint = window.ENV.UI_AUTH_ENDPOINT;
       const response = await fetch(`${apiEndpoint}/signin`, {
